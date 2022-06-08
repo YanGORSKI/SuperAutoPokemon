@@ -15,7 +15,7 @@ public enum PokeList {
 	//			name				    type1				type2	frm	tier	HP		ATK		DEF		SATK	SDEF	SPD 	Ability1			Ability2			Move1					Move2					Move3					Move4
 	CHARMANDER	("Charmander", 	PokeType.FIRE,  	PokeType.NULL, 	1, 	1, 		78, 	52, 	43,  	60,  	50,  	65, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.SCRATCH, 		MoveList.GROWL, 		MoveList.LEER, 			MoveList.EMBER),
 	CHARMELEON	("Charmeleon", 	PokeType.FIRE,  	PokeType.NULL, 	2, 	3, 		116, 	64, 	58,  	80,  	65,  	80, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.EMBER, 		MoveList.LEER, 			MoveList.RAGE, 			MoveList.FLAMETHROWER),
-	CHARIZARD	("Charizard", 	PokeType.FIRE,  	PokeType.NULL, 	3, 	6, 		500, 	84, 	78,  	109, 	85,  	100, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.FLAMETHROWER, 	MoveList.RAGE, 			MoveList.SLASH, 		MoveList.FIRE_SPIN),
+	CHARIZARD	("Charizard", 	PokeType.FIRE,  	PokeType.NULL, 	3, 	6, 		156, 	84, 	78,  	109, 	85,  	100, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.FLAMETHROWER, 	MoveList.RAGE, 			MoveList.SLASH, 		MoveList.FIRE_SPIN),
 	//squirtle evoLine														156
 	//			name				    type1				type2	frm	tier	HP		ATK		DEF		SATK	SDEF	SPD 	Ability1			Ability2			Move1					Move2					Move3					Move4
 	SQUIRTLE	("Squirtle", 		PokeType.WATER, 	PokeType.NULL, 	1, 	1, 		88, 	48, 	65,  	50,  	64,  	43, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.TACKLE, 		MoveList.TAIL_WHIP, 	MoveList.BUBBLE, 		MoveList.WATER_GUN),

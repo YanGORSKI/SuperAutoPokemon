@@ -3,6 +3,7 @@ package screens.arena.battle.duel;
 import java.util.ArrayList;
 
 import pokemons.Pokemon;
+import pokemons.conditions.Condition;
 import utils.PokeUtils;
 
 
@@ -16,9 +17,12 @@ public class Duel {
        while (battler1.getHP() > 0 && battler2.getHP() > 0) {
         // for (int i = 0; i < 5; i++) {
             beginTurn();
+            System.out.println();
             combat(this.order.get(0), this.order.get(1));
-            endTurn(); 
+            System.out.println();
+            endTurn();
         }
+        System.out.println();
         declareWinner();
         // }
     }
@@ -29,8 +33,10 @@ public class Duel {
         System.out.println("TURN: " + this.turn);
         for (int i = 0; i < this.battler1.getConditions().size(); i++) {
             this.battler1.getConditions().get(i).conditionCheckBegin(this.battler1);
+            this.battler1.getConditions().get(i).conditionFromUser(this.battler1, this.battler2);
         }for (int i = 0; i < this.battler2.getConditions().size(); i++) {
             this.battler2.getConditions().get(i).conditionCheckBegin(this.battler2);
+            this.battler2.getConditions().get(i).conditionFromUser(this.battler2, this.battler1);
         }
         checkOrder(this.battler1, this.battler2);
         
@@ -39,10 +45,12 @@ public class Duel {
     public void combat(Pokemon first, Pokemon second) {
         first.setTarget(second);
         second.setTarget(first);
+        // debugPrintPokeMoveInfo(first);
         if (first.canAct()) {
             first.act();
         }
         System.out.println("");
+        // debugPrintPokeMoveInfo(second);
         if (second.canAct()) {
             second.act();
         }
@@ -68,19 +76,26 @@ public class Duel {
     private void checkOrder(Pokemon battler1, Pokemon battler2) {
         ArrayList<Pokemon> pokemonList = new ArrayList<Pokemon>();
 
-		if (battler1.getSPD() == battler2.getSPD()) {
-			int d20 = PokeUtils.d20();
-			if (d20 <= 10) {
-				pokemonList.add(battler1);
-			} else {
-				pokemonList.add(battler2);
-			}
-		}else if (battler1.getSPD() > battler2.getSPD()) {
-			pokemonList.add(battler1);
-		}else {
-			pokemonList.add(battler2);
-		}
-
+		if (battler1.getConditions().contains(Condition.BOUND)) {
+            pokemonList.add(battler2);
+        }
+        if (battler2.getConditions().contains(Condition.BOUND)) {
+            pokemonList.add(battler1);
+        }
+        if (!pokemonList.contains(battler1) && !pokemonList.contains(battler2)) {
+            if (battler1.getSPD() == battler2.getSPD()) {
+                int d20 = PokeUtils.d20();
+                if (d20 <= 10) {
+                    pokemonList.add(battler1);
+                } else {
+                    pokemonList.add(battler2);
+                }
+            }else if (battler1.getSPD() > battler2.getSPD()) {
+                pokemonList.add(battler1);
+            }else {
+                pokemonList.add(battler2);
+            }
+        }
 		if(pokemonList.contains(battler1)) {
 			pokemonList.add(battler2);
 		} else {
@@ -88,6 +103,14 @@ public class Duel {
 		}
 
 		this.order = pokemonList;
+    }
+
+    public void debugPrintPokeMoveInfo(Pokemon pokemon) {
+        System.out.println(pokemon.getActiveMove());
+        System.out.println(pokemon.getActiveMoveTurns());
+        System.out.println(pokemon.getActiveMoveDelay());
+        System.out.println(pokemon.getInactiveCount());
+        System.out.println(pokemon.getConditions());
     }
 
     public Duel(Pokemon battler1, Pokemon battler2) {

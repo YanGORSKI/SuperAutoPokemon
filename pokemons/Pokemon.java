@@ -37,6 +37,7 @@ public class Pokemon {
     Move move4;
 
     Move activeMove;
+    int activeMoveMaxTurns;
     int activeMoveTurns;
     int activeMoveDelay;
     int activeMoveRest;
@@ -83,6 +84,7 @@ public class Pokemon {
         }
         this.inactiveCount = 0;
         this.activeMove = null;
+        this.activeMoveMaxTurns = 0;
         this.activeMoveTurns = 0;
         this.activeMoveDelay = 0;
         this.activeMoveRest = 0;
@@ -95,6 +97,10 @@ public class Pokemon {
     public boolean canAct() {
         if (inactiveCount > 0) {
             System.out.println(this.getNickname() + " can't act!");
+            this.inactiveCount = this.inactiveCount-1;
+            if (inactiveCount == 0) {
+                this.conditions.remove(Condition.BOUND);
+            }
             return false;
         }
         if (!isAlive()) {
@@ -103,6 +109,11 @@ public class Pokemon {
         }
         if (!(this.target.getHP() > 0)) {
             System.out.println(this.getNickname() + " has no target!");
+            return false;
+        }
+        if (this.conditions.contains(Condition.FLINCHING)) {
+            System.out.println(this.getNickname() + " flinched!");
+            this.conditions.remove(Condition.FLINCHING);
             return false;
         }
         return true;
@@ -130,6 +141,9 @@ public class Pokemon {
 
     public boolean canChoose() {
         if (activeMoveTurns > 0) {
+            if(this.activeMove.getName().equals("Rage")) {
+                System.out.println(this.getNickname() + " is still raging!");
+            }
             return false;
         } else return true;
     }
@@ -160,36 +174,51 @@ public class Pokemon {
 					return;
 				} else {
 					int rnd = PokeUtils.d20();
-					if (rnd >= 1 && rnd <= 8) this.activeMove = this.move3;
+					if (rnd >= 1 && rnd <= 8) this.activeMove = this.move1;
 					if (rnd >= 9 && rnd <= 14) this.activeMove = this.move3;
 					if (rnd >= 15 && rnd <= 18) this.activeMove = this.move3;
-					if (rnd >= 19 && rnd <= 20) this.activeMove = this.move3;
+					if (rnd >= 19 && rnd <= 20) this.activeMove = this.move4;
 					System.out.println(this.getNickname() + " chooses " + this.activeMove.getName());
+                    this.activeMoveTurns = this.activeMove.turnsCheck();
+                    this.activeMoveMaxTurns = this.activeMoveTurns;
+                    this.activeMoveDelay = this.activeMove.getDelay();
+                    this.activeMoveRest = this.activeMove.getRest();
 				}
 			}
 		}
 	}
 
     public void use(Move move) {
+        if (this.activeMoveDelay > 0) {
+            System.out.println(this.getNickname() + " is charging!");
+            this.activeMoveTurnsTicks();
+            return;
+        }
         if (this.conditions.contains(Condition.CHARGING)) {
+            System.out.println(this.getNickname() + " is charging!");
             return;
         } else {
-            if (this.activeMove != null && this.activeMoveTurns > 0) {
+            if (this.activeMove != null && this.activeMoveMaxTurns > this.activeMoveTurns) {
+                System.out.println(this.getNickname() + " uses " + this.activeMove.getName());
                 this.activeMove.execute(this, this.target);
+                if (this.activeMoveTurns == 0) {
+                    resetActiveMove();
+                }
             } else {
                 System.out.println(this.getNickname() + " uses " + this.activeMove.getName());
-
                 if (this.activeMove.getAcc() > 0) {
                     if (this.activeMove.hitCheck(this.target)) {
-                        this.activeMoveTurns = this.activeMove.getTurns();
-                        this.activeMoveDelay = this.activeMove.getDelay();
-                        this.activeMoveRest = this.activeMove.getRest();
                         this.activeMove.execute(this, this.target);
                         if (this.activeMoveTurns == 0) {
                             resetActiveMove();
                         }
                     } else {
                         System.out.println(this.getNickname() + " misses!");
+                        resetActiveMove();
+                    }
+                } else {
+                    this.activeMove.execute(this, this.target);
+                    if (this.activeMoveTurns == 0) {
                         resetActiveMove();
                     }
                 }
@@ -199,6 +228,7 @@ public class Pokemon {
 
     private void resetActiveMove() {
         this.activeMove = null;
+        this.activeMoveMaxTurns = 0;
         this.activeMoveTurns = 0;
         this.activeMoveDelay = 0;
         this.activeMoveRest = 0;
@@ -216,6 +246,11 @@ public class Pokemon {
 
     public void takeDmg(double dmg) {
         this.HP.modStat(-dmg);
+        this.HP.updateStat();
+    }
+
+    public void healDmg(double dmg) {
+        this.HP.modStat(+dmg);
         this.HP.updateStat();
     }
 
@@ -332,17 +367,22 @@ public class Pokemon {
     public Move getMove4() {
         return move4;
     }
-
+    
     public Move getActiveMove() {
         return activeMove;
     }
     
+    public int getActiveMoveMaxTurns() {
+        return activeMoveMaxTurns;
+    }
+
     public int getActiveMoveTurns() {
         return activeMoveTurns;
     }
 
     public void activeMoveTurnsTicks() {
         this.activeMoveTurns = (this.activeMoveTurns - 1);
+        this.activeMoveDelay = (this.activeMoveDelay - 1);
     }
 
     public int getActiveMoveDelay() {
@@ -411,6 +451,7 @@ public class Pokemon {
             + "Conditions:" + this.getConditions() + "\n"
         );
     }
+
 
 
 

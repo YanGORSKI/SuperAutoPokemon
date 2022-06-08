@@ -58,7 +58,7 @@ zardaum.setNickname("Lizardaum");
 
 
 
-Duel duel = new Duel(ivy, saurosso);
+Duel duel = new Duel(ivy, meleon);
 
 
     }

@@ -157,18 +157,42 @@ public class Move {
 	}
 
     public void inflictCondition(Pokemon user, Pokemon target) {
-		if (target.getConditions().contains(this.getCondition())) {
-            System.out.println(target.getNickname() + " is already " + this.getCondition().name());
+		if (this.getCondition() == Condition.SEEDED && (target.getType1() == PokeType.GRASS || target.getType2() == PokeType.GRASS)) {
+            System.out.println("Cannot SEED a GRASS Pokemon!");
+            return;
+        }
+        if (target.getConditions().contains(this.getCondition())) {
+            System.out.println(target.getNickname() + " is still " + this.getCondition().name());
             return;
         } else {
             target.addCondition(this.getCondition());
             System.out.println(user.getNickname() + " inflicts " + this.getCondition().name() + " to " + target.getNickname());
             if (this.getCondition().equals(Condition.BOUND)) {
-                target.setInactiveCount(this.getTurns());
+                target.setInactiveCount(user.getActiveMoveTurns()-1);
             }
         }
 	}
 
+    public int turnsCheck() {
+		if (((this.turns-this.delay) > 1 || (this.turns-this.rest > 1)) && (this.turns<100)) {
+			int maxTurns = this.turns;
+			int maxChance = 4;
+			for (int i = 0; i < maxTurns; i++) {
+				int rnd = PokeUtils.d20();
+				if (rnd >= 1 && rnd <= maxChance) {
+					return i+1;
+				} else {
+					maxChance = maxChance+2;
+				}
+				if (i == maxTurns) {
+					System.out.println(i);
+					return i;
+				}
+			}
+		} 
+		return this.turns;
+    }
+    
     public void changeStat(Pokemon target) {
         switch (this.effectStat) {
             case HP:

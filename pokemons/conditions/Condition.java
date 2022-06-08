@@ -7,10 +7,10 @@ public enum Condition {
 		@Override
 		public
 		void conditionCheckBegin(Pokemon pokemon) {
-			int poisonDmg = (int) (pokemon.getBaseHP()/10);
-			System.out.println(pokemon.getName() + " suffers " + poisonDmg + " poison damage");
+			int poisonDmg = (int) (pokemon.getBaseHP()/15);
+			System.out.println(pokemon.getNickname() + " suffers " + poisonDmg + " poison damage");
 			pokemon.takeDmg(poisonDmg);
-			System.out.println(pokemon.getName()+"'s HP goes to " + pokemon.getHP());
+			System.out.println(pokemon.getNickname()+"'s HP goes to " + pokemon.getHP());
 		}
 
 		@Override
@@ -28,18 +28,17 @@ public enum Condition {
 		}
 
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			return 0;
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
 	BURNING {
 		@Override
 		public
 		void conditionCheckBegin(Pokemon pokemon) {
-			int burningDmg = (int) (pokemon.getBaseHP()/10);
-			System.out.println(pokemon.getName() + " suffers " + burningDmg + " burning damage");
+			int burningDmg = (int) (pokemon.getBaseHP()/15);
+			System.out.println(pokemon.getNickname() + " suffers " + burningDmg + " burning damage");
 			pokemon.takeDmg(burningDmg);
-			System.out.println(pokemon.getName()+"'s HP goes to " + pokemon.getHP());
+			System.out.println(pokemon.getNickname()+"'s HP goes to " + pokemon.getHP());
 		}
 
 		@Override
@@ -57,8 +56,7 @@ public enum Condition {
 		}
 
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			return 0;
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
     //TODO
@@ -66,10 +64,6 @@ public enum Condition {
 		@Override
 		public
 		void conditionCheckBegin(Pokemon pokemon) {
-			int burningDmg = (int) (pokemon.getBaseHP()/10);
-			System.out.println(pokemon.getName() + " suffers " + burningDmg + " burning damage");
-			pokemon.takeDmg(burningDmg);
-			System.out.println(pokemon.getName()+"'s HP goes to " + pokemon.getHP());
 		}
 		
 		@Override
@@ -87,8 +81,12 @@ public enum Condition {
 		}
 		
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			return 0;
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
+			int leechingDmg = (int) (affected.getBaseHP()/15);
+			System.out.println(source.getNickname() + " leeches " + leechingDmg + " HP from " + affected.getNickname());
+			affected.takeDmg(leechingDmg);
+			source.healDmg(leechingDmg);
+			System.out.println(source.getNickname() + " heals to " + source.getHP() + " HP and " + affected.getNickname() + "'s HP goes to " + affected.getHP());
 		}
 	},
 
@@ -113,8 +111,7 @@ public enum Condition {
 		}
 
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			return 0;
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
 	
@@ -145,10 +142,9 @@ public enum Condition {
 		}
 
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			// TODO Auto-generated method stub
-			return 0;
-		}},
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
+		}
+	},
 
 
 	BOUND {
@@ -172,8 +168,7 @@ public enum Condition {
 		}
 
 		@Override
-		public double conditionFromUser(Pokemon affected, Pokemon source) {
-			return 0;
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	};
 	//CRIAR VALORES PRA DIFERENCIAR AS CONDITIONS
@@ -183,6 +178,6 @@ public enum Condition {
 	public abstract void conditionCheckEnding(Pokemon pokemon);
 	public abstract void conditionCheckMove(Pokemon pokemon);
 	public abstract double conditionDmgAdj(Pokemon pokemon);
-	public abstract double conditionFromUser(Pokemon affected, Pokemon source);
+	public abstract void conditionFromUser(Pokemon affected, Pokemon source);
 
 }

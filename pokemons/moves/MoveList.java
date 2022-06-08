@@ -24,7 +24,7 @@ public enum MoveList {
     
     //	BUFF MOVES                                                                               
     //	ID				NAME				TYPE				RANGE			PWR	ACC		hits	trns 	dlay	rst		Crit	Recoil	stat		t.stat		value	%efct		CONDITION				EXTRA DMG
-        GROWTH			("Growth",		PokeType.NORMAL,	Range.SELF,		0,	1.0,	1,		1, 		0, 		0,		0.0d,	0,		null,		Stats.SATK,	0.2,	1,			null,					0),
+        GROWTH			("Growth",		PokeType.NORMAL,	Range.SELF,		0,	1.0,	1,		1, 		0, 		0,		0.0d,	0,		null,		Stats.SPECIAL,	0.2,	1,			null,					0),
         WITHDRAW		("Withdraw",		PokeType.NORMAL,	Range.SELF,		0,	1.0,	1,		1, 		0, 		0,		0.0d,	0,		null,		Stats.DEF,	0.2,	1,			null,					0),
                                                                                                     
     //	FIRE                                                                                        
@@ -38,8 +38,8 @@ public enum MoveList {
         VINE_WHIP		("Vine Whip",		PokeType.GRASS,	Range.MELEE,	45,	1.0,	1,		1, 		0, 		0,		0.05,	0,		Stats.ATK,		null,		0.0,	0,			null,					0),
         RAZOR_LEAF		("Razor Leaf",	PokeType.GRASS,	Range.RANGED,	55,	0.95,	1,		1, 		0, 		0,		0.15,	0,		Stats.ATK,		null,		0.0,	0,			null,					0),
         SEED_BOMB		("Seed Bomb",		PokeType.GRASS,	Range.RANGED,	80,	1,		1,		1, 		0, 		0,		0.05,	0,		Stats.ATK,		null,		0.0,	0,			null,					0),
-        LEECH_SEED		("Leech Seed",	PokeType.GRASS,	Range.RANGED,	0,	    0.9,	1,		100,	    0, 		0,		0.00,	0,		null,		null,		0.0,	0,			Condition.SEEDED,		0),
-        SOLAR_BEAM		("Solar Beam",	PokeType.GRASS,	Range.RANGED,	12,	1,		1,		2, 		1, 		0,		0.05,	0,		Stats.SATK,	null,		0.0,	0,			null,					0),
+        LEECH_SEED		("Leech Seed",	PokeType.GRASS,	Range.RANGED,	0,	    0.9,	1,		1,	    0, 		0,		0.00,	0,		null,		null,		0.0,	1.0,			Condition.SEEDED,		0),
+        SOLAR_BEAM		("Solar Beam",	PokeType.GRASS,	Range.RANGED,	120,	1,		1,		2, 		1, 		0,		0.05,	0,		Stats.SATK,	null,		0.0,	0,			null,					0),
                                                                                                     
     //	WATER                                                                                      
     //	ID				NAME				TYPE				RANGE			PWR	ACC		hits	trns 	dlay	rst		Crit	Recoil	stat		t.stat		value	%efct		CONDITION				EXTRA DMG
@@ -49,7 +49,7 @@ public enum MoveList {
                                                                                                     
     //	POISON                                                                                    
     //	ID				NAME				TYPE				RANGE			PWR	ACC		hits	trns 	dlay	rst		Crit	Recoil	stat		t.stat		value	%efct		CONDITION				EXTRA DMG
-        POISON_POWDER	("Poison Powder",	PokeType.POISON,	Range.RANGED,	0,	0.75,	1,		1, 		0, 		0,		0.00,	0,		null,		null,		0.0,	1,			Condition.POISONED,		0);
+        POISON_POWDER	("Poison Powder",	PokeType.POISON,	Range.RANGED,	0,	0.2,	1,		1, 		0, 		0,		0.00,	0,		null,		null,		0.0,	1,			Condition.POISONED,		0);
                                                                                                     
         
     

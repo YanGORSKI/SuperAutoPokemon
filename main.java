@@ -1,8 +1,14 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import player.Player;
 import pokemons.PokeList;
 import pokemons.Pokemon;
-import pokemons.conditions.Condition;
 import screens.arena.battle.duel.Duel;
-import screens.titlescreen.*;
+import screens.arena.shop.Shop;
+import utils.PokeUtils;
 
 public class main {
     public static void main(String[] args) {
@@ -11,6 +17,8 @@ public class main {
 // menu();
 
 //Testes preliminares
+PokeUtils.defineTiers();
+
 Pokemon bulba = new Pokemon(PokeList.BULBASAUR);
 bulba.setNickname("Bulbinho");
 Pokemon saur = new Pokemon(PokeList.BULBASAUR);
@@ -58,7 +66,12 @@ zardaum.setNickname("Lizardaum");
 
 
 
-Duel duel = new Duel(ivy, meleon);
+// Duel duel = new Duel(ivy, meleon);
+Player player = new Player();
+player.advanceRound();
+
+Shop shop = new Shop(player);
+
 
 
     }

@@ -21,56 +21,56 @@ PokeUtils.defineTiers();
 
 Pokemon bulba = new Pokemon(PokeList.BULBASAUR);
 bulba.setNickname("Bulbinho");
-Pokemon saur = new Pokemon(PokeList.BULBASAUR);
-saur.setNickname("Saurinho");
+Pokemon ivy = new Pokemon(PokeList.IVYSAUR);
+ivy.setNickname("Ivinho");
+Pokemon veninho = new Pokemon(PokeList.VENUSAUR);
+veninho.setNickname("Veninho");
 
 Pokemon squir = new Pokemon(PokeList.SQUIRTLE);
 squir.setNickname("Squirtinho");
-Pokemon tlezin = new Pokemon(PokeList.SQUIRTLE);
-tlezin.setNickname("Taruguinho");
+Pokemon wart = new Pokemon(PokeList.WARTORTLE);
+wart.setNickname("Warto");
+Pokemon blast = new Pokemon(PokeList.BLASTOISE);
+blast.setNickname("Blastinho");
 
 Pokemon charm = new Pokemon(PokeList.CHARMANDER);
 charm.setNickname("Charminho");
-Pokemon mander = new Pokemon(PokeList.CHARMANDER);
-mander.setNickname("Mandinho");
-
-Pokemon ivy = new Pokemon(PokeList.IVYSAUR);
-ivy.setNickname("Ivinho");
-Pokemon saurosso = new Pokemon(PokeList.IVYSAUR);
-saurosso.setNickname("Saurosso");
-
-Pokemon wart = new Pokemon(PokeList.WARTORTLE);
-wart.setNickname("Warto");
-Pokemon tortl = new Pokemon(PokeList.WARTORTLE);
-tortl.setNickname("Tortle");
-
 Pokemon charas = new Pokemon(PokeList.CHARMELEON);
 charas.setNickname("Charme");
-Pokemon meleon = new Pokemon(PokeList.CHARMELEON);
-meleon.setNickname("Cameleon");
-
-Pokemon veninho = new Pokemon(PokeList.VENUSAUR);
-veninho.setNickname("Veninho");
-Pokemon sauraum = new Pokemon(PokeList.VENUSAUR);
-sauraum.setNickname("Sauraum");
-
-Pokemon blast = new Pokemon(PokeList.BLASTOISE);
-blast.setNickname("Blastinho");
-Pokemon toize = new Pokemon(PokeList.BLASTOISE);
-toize.setNickname("Toizaum");
-
 Pokemon charinho = new Pokemon(PokeList.CHARIZARD);
 charinho.setNickname("Charam");
-Pokemon zardaum = new Pokemon(PokeList.CHARIZARD);
-zardaum.setNickname("Lizardaum");
 
+Pokemon caterpie = new Pokemon(PokeList.CATERPIE);
+caterpie.setNickname("Caterpinha");
 
+Pokemon weedle = new Pokemon(PokeList.WEEDLE);
+weedle.setNickname("Weedlinho");
 
-// Duel duel = new Duel(ivy, meleon);
-Player player = new Player();
-player.advanceRound();
+Pokemon pidgey = new Pokemon(PokeList.PIDGEY);
+pidgey.setNickname("Pombo");
 
-Shop shop = new Shop(player);
+Pokemon rattata = new Pokemon(PokeList.RATTATA);
+rattata.setNickname("Ratazana");
+
+Pokemon spearow = new Pokemon(PokeList.SPEAROW);
+spearow.setNickname("Pardal");
+Pokemon row = new Pokemon(PokeList.SPEAROW);
+row.setNickname("Perow");
+
+Pokemon ekans = new Pokemon(PokeList.EKANS);
+ekans.setNickname("Cobroxa");
+
+Pokemon pika = new Pokemon(PokeList.PIKACHU);
+pika.setNickname("Pika");
+
+System.out.println(caterpie);
+System.out.println(weedle);
+
+Duel duel = new Duel(pika, charm);
+// Player player = new Player();
+// player.advanceRound();
+
+// Shop shop = new Shop(player);
 
 
 

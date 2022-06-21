@@ -66,7 +66,289 @@ public enum Ability {
 		@Override
 		public
 		void abilityCheck(Pokemon user, Pokemon target, Move move) {}
-	};
+	},
+	
+	SNIPER {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	
+	KEEN_EYE {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	GUTS {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	LIGHTNING_ROD {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	STATIC {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	INTIMIDATE {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	TANGLED_FEET {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	HUSTLE {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	SHED_SKIN {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	},
+	
+	SHIELD_DUST {
+
+		@Override
+		public void abilityCheck(Pokemon user) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double abilityCheckDmg(Pokemon user, Move move) {
+			// TODO Auto-generated method stub
+			return 1.0;
+		}
+
+		@Override
+		public void abilityCheck(Pokemon user, Pokemon target, Move move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	}
+	;
 	
 	public abstract void abilityCheck(Pokemon user);
 	public abstract void abilityCheck(Pokemon user, Pokemon target);

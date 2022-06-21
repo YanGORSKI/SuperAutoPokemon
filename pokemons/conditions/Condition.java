@@ -31,6 +31,7 @@ public enum Condition {
 		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
+
 	BURNING {
 		@Override
 		public
@@ -59,7 +60,7 @@ public enum Condition {
 		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
-    //TODO
+
 	SEEDED {
 		@Override
 		public
@@ -138,14 +139,13 @@ public enum Condition {
 		@Override
 		public double conditionDmgAdj(Pokemon pokemon) {
 			// TODO Auto-generated method stub
-			return 0;
+			return 1;
 		}
 
 		@Override
 		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
 	},
-
 
 	BOUND {
 		@Override
@@ -170,8 +170,38 @@ public enum Condition {
 		@Override
 		public void conditionFromUser(Pokemon affected, Pokemon source) {
 		}
+	},
+	
+	PARALYZED {
+		@Override
+		public void conditionCheckBegin(Pokemon pokemon) {
+			pokemon.changeSPD(-(pokemon.getSPD()*0.75));	
+		}
+
+		@Override
+		public void conditionCheckEnding(Pokemon pokemon) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void conditionCheckMove(Pokemon pokemon) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double conditionDmgAdj(Pokemon pokemon) {
+			// TODO Auto-generated method stub
+			return 1;
+		}
+
+		@Override
+		public void conditionFromUser(Pokemon affected, Pokemon source) {
+			// TODO Auto-generated method stub
+			
+		}
 	};
-	//CRIAR VALORES PRA DIFERENCIAR AS CONDITIONS
 	
 
 	public abstract void conditionCheckBegin(Pokemon pokemon);

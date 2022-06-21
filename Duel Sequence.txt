@@ -1,0 +1,18 @@
+New Turn
+
+Pokemon1 canAct?
+Pokemon1 act
+Pokemon1 canChoose?
+Pokemon1 Chooses?
+
+Pokemon2 canAct?
+Pokemon2 act
+Pokemon2 canChoose?
+Pokemon2 Chooses?
+
+new turn order
+
+1st Pokemon uses
+
+2nd Pokemon uses
+

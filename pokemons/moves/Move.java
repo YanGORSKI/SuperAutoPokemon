@@ -76,13 +76,13 @@ public class Move {
         this.extraDmg     = move.getExtraDmg();
     }
 
-    public boolean hitCheck(Pokemon target) {
-		if((this.acc - target.getEVS()) >= 1) {
+    public boolean hitCheck(Pokemon user, Pokemon target) {
+		if(((this.acc*user.getACC()) - target.getEVS()) >= 1) {
 			return true;
 		}
-		if((this.acc - target.getEVS()) < 1) {
+		if(((this.acc*user.getACC()) - target.getEVS()) < 1) {
 			int d20 = PokeUtils.d20();
-			if (d20 <= (int)((this.acc - target.getEVS())*20)) {
+			if (d20 <= (int)(((this.acc*user.getACC()) - target.getEVS())*20)) {
 				return true;
 			}
 		}
@@ -134,7 +134,7 @@ public class Move {
 		finalDmg = (int)(finalDmg*abilityAdjust);
 
 
-		for (int i=0; i<this.hits; i++) {
+		for (int i=0; i<this.numHitsCheck(); i++) {
 			if(isCrit(this)) {
 				target.takeDmg(finalDmg*1.5);
 				System.out.println(user.getNickname() + " deals " + (int)(finalDmg*1.5) + " damage to " + target.getNickname() + ". It's a critical hit!");
@@ -192,6 +192,26 @@ public class Move {
 		} 
 		return this.turns;
     }
+
+    public int numHitsCheck() {
+		if (this.hits > 2) {
+			int maxHits = this.hits;
+			int maxChance = 4;
+			for (int i = 0; i < maxHits; i++) {
+				int rnd = PokeUtils.d20();
+				if (rnd >= 1 && rnd <= maxChance) {
+					return i+1;
+				} else {
+					maxChance = maxChance+2;
+				}
+				if (i == maxHits) {
+					System.out.println(i);
+					return i;
+				}
+			}
+		} 
+		return this.hits;
+    }
     
     public void changeStat(Pokemon target) {
         switch (this.effectStat) {
@@ -216,10 +236,32 @@ public class Move {
             case SPD:
                 target.changeSPD(target.getSPD()*this.getStatChange());
                 System.out.println(target.getNickname() + "'s SPD has gone to " + target.getSPD());
+                if (target.getSPD() > 100) {
+                    if (!(target.getEVS() > 0.5)) {
+                        target.changeEVS(((((double)(target.getSPD())-100d)/2d)/100d));
+                        System.out.printf(target.getNickname() + " is so fast it's EVS increases to %,.2f", target.getEVS100());
+                        System.out.println("%");
+                    } else {
+                        System.out.println(target.getNickname() + "'s EVS can't increase anymore!");
+                    }
+                }
+                break;
+            case ACC:
+                target.changeACC(target.getACC()*this.getStatChange());
+                System.out.println(target.getNickname() + "'s ACC has gone to " + target.getACC());
                 break;
             case EVS:
-                target.changeEVS(target.getEVS()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s EVS has gone to " + target.getEVS());
+                if (!(target.getEVS() > 0.5)) {
+                    target.changeEVS(this.getStatChange());
+                    System.out.printf(target.getNickname() + "'s EVS has gone to %,.2f", target.getEVS100());
+                    System.out.println("%");
+                } else {
+                    System.out.println(target.getNickname() + "'s EVS can't increase anymore!");
+                }
+                break;
+            case CRIT:
+                target.changeCRIT(this.getStatChange());
+                System.out.println(target.getNickname() + "'s CRIT has gone to " + target.getCRIT100());
                 break;
             case SPECIAL:
                 target.changeSATK(target.getSATK()*this.getStatChange());

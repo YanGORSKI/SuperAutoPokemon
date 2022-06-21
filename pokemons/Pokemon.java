@@ -30,6 +30,8 @@ public class Pokemon {
     Stat SDEF;
     Stat SPD;
     Stat EVS;
+    Stat ACC;
+    Stat CRIT;
 
     Move move1;
     Move move2;
@@ -70,7 +72,9 @@ public class Pokemon {
         this.SATK = new Stat(Stats.SATK, pokemon.baseS_ATK);
         this.SDEF = new Stat(Stats.SDEF, pokemon.baseS_DEF);
         this.SPD = new Stat(Stats.SPD, pokemon.baseSPD);
+        this.ACC = new Stat(Stats.ACC, 1d);
         this.EVS = new Stat(Stats.EVS, 0d);
+        this.CRIT = new Stat(Stats.CRIT, 0d);
 
         this.move1 = new Move(pokemon.move1);
         this.move2 = new Move(pokemon.move2);
@@ -116,6 +120,15 @@ public class Pokemon {
             this.conditions.remove(Condition.FLINCHING);
             return false;
         }
+        if (this.conditions.contains(Condition.PARALYZED)) {
+            int d20 = PokeUtils.d20();
+            if (d20 >= 1 && d20 <= 5) {
+                System.out.println(this.getNickname() + " is paralyzed!");
+                return false;
+            } else {
+                return true;
+            }
+        }
         return true;
     }
 
@@ -125,19 +138,6 @@ public class Pokemon {
         } else return false;
     }
 
-    //Act Method
-    public void act() {
-        if (canChoose()) {
-            choose();
-            use(this.activeMove);
-        } else {
-            if (activeMove == null) {
-                return;
-            } else {
-                use(this.activeMove);
-            }
-        }
-    }
 
     public boolean canChoose() {
         if (activeMoveTurns > 0) {
@@ -175,10 +175,9 @@ public class Pokemon {
 				} else {
 					int rnd = PokeUtils.d20();
 					if (rnd >= 1 && rnd <= 8) this.activeMove = this.move1;
-					if (rnd >= 9 && rnd <= 14) this.activeMove = this.move3;
+					if (rnd >= 9 && rnd <= 14) this.activeMove = this.move2;
 					if (rnd >= 15 && rnd <= 18) this.activeMove = this.move3;
 					if (rnd >= 19 && rnd <= 20) this.activeMove = this.move4;
-					System.out.println(this.getNickname() + " chooses " + this.activeMove.getName());
                     this.activeMoveTurns = this.activeMove.turnsCheck();
                     this.activeMoveMaxTurns = this.activeMoveTurns;
                     this.activeMoveDelay = this.activeMove.getDelay();
@@ -207,7 +206,7 @@ public class Pokemon {
             } else {
                 System.out.println(this.getNickname() + " uses " + this.activeMove.getName());
                 if (this.activeMove.getAcc() > 0) {
-                    if (this.activeMove.hitCheck(this.target)) {
+                    if (this.activeMove.hitCheck(this, this.target)) {
                         this.activeMove.execute(this, this.target);
                         if (this.activeMoveTurns == 0) {
                             resetActiveMove();
@@ -242,6 +241,8 @@ public class Pokemon {
         this.SDEF.updateStat();
         this.SPD.updateStat();
         this.EVS.updateStat();
+        this.CRIT.updateStat();
+        this.ACC.updateStat();
     }
 
     public void takeDmg(double dmg) {
@@ -333,25 +334,51 @@ public class Pokemon {
         this.SDEF.modStat(change);
         this.SDEF.updateStat();
     }
-
+    
     public int getSPD() {
         return this.SPD.current();
     }
-
+    
     public void changeSPD(double change) {
         this.SPD.modStat(change);
         this.SPD.updateStat();
     }
-
-    public int getEVS() {
-        return this.EVS.current();
+    
+    public double getEVS() {
+        return this.EVS.currentd();
     }
 
+    public double getEVS100() {
+        return this.EVS.currentd()*100;
+    }
+    
     public void changeEVS(double change) {
         this.EVS.modStat(change);
         this.EVS.updateStat();
     }
+    
+    public int getACC() {
+        return this.ACC.current();
+    }
+    
+    public void changeACC(double change) {
+        this.ACC.modStat(change);
+        this.ACC.updateStat();
+    }
 
+    public double getCRIT() {
+        return this.CRIT.currentd();
+    }
+
+    public double getCRIT100() {
+        return this.CRIT.currentd()*100;
+    }
+    
+    public void changeCRIT(double change) {
+        this.ACC.modStat(change);
+        this.ACC.updateStat();
+    }
+    
     public Move getMove1() {
         return move1;
     }
@@ -451,6 +478,7 @@ public class Pokemon {
             + "Conditions:" + this.getConditions() + "\n"
         );
     }
+
 
 
 

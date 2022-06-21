@@ -38,21 +38,27 @@ public class Duel {
             this.battler2.getConditions().get(i).conditionCheckBegin(this.battler2);
             this.battler2.getConditions().get(i).conditionFromUser(this.battler2, this.battler1);
         }
+        battler1.setTarget(battler2);
+        battler2.setTarget(battler1);
+        if (battler1.canChoose()) {
+            battler1.choose();
+        }
+        if (battler2.canChoose()) {
+            battler2.choose();
+        }
         checkOrder(this.battler1, this.battler2);
         
     }
     
     public void combat(Pokemon first, Pokemon second) {
-        first.setTarget(second);
-        second.setTarget(first);
         // debugPrintPokeMoveInfo(first);
         if (first.canAct()) {
-            first.act();
+            first.use(first.getActiveMove());
         }
         System.out.println("");
         // debugPrintPokeMoveInfo(second);
         if (second.canAct()) {
-            second.act();
+            second.use(second.getActiveMove());
         }
     }
     
@@ -81,6 +87,12 @@ public class Duel {
         }
         if (battler2.getConditions().contains(Condition.BOUND)) {
             pokemonList.add(battler1);
+        }
+        if (battler1.getActiveMove().getName().equals("Quick Attack")) {
+            pokemonList.add(battler1);
+        }
+        if (battler2.getActiveMove().getName().equals("Quick Attack")) {
+            pokemonList.add(battler2);
         }
         if (!pokemonList.contains(battler1) && !pokemonList.contains(battler2)) {
             if (battler1.getSPD() == battler2.getSPD()) {

@@ -1,21 +1,36 @@
 package player;
 
+import utils.TFormat;
+
 public class Player {
     int victories;
     int lifes;
     int gold;
     int round;
+    Team team;
     
     public Player() {
         this.victories = 0;
         this.lifes = 15;
         this.gold = 0;
         this.round = 0;
+        advanceRound();
+        team = new Team();
     }
 
+    public void spendGold(int cost) {
+        this.gold = this.gold - cost;
+    }
+
+    public void earnGold(int cost) {
+        this.gold = this.gold + cost;
+    }
+    
     
     public void advanceRound() {
         this.round = this.round + 1;
+        System.out.println("It's now round: " + this.round);
+        earnGold(10);
     }
     
     public int getVictories() {
@@ -23,6 +38,9 @@ public class Player {
     }
     public void setVictories(int victories) {
         this.victories = victories;
+    }
+    public Team getTeam() {
+        return this.team;
     }
     public int getLifes() {
         return lifes;
@@ -41,6 +59,11 @@ public class Player {
     }
     public void setRound(int round) {
         this.round = round;
+    }
+
+    public void printPlayer() {
+        System.out.println("Lifes: " + TFormat.dDigitsNumber(this.lifes) + "\t" + "\t" + "Wins: " + TFormat.dDigitsNumber(this.victories));
+        System.out.println("Gold: " + TFormat.dDigitsNumber(this.gold) + "\t" + "\t" + "Round: " + TFormat.dDigitsNumber(this.round));
     }
 
 

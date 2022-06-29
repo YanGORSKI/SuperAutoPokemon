@@ -2,15 +2,17 @@ package pokemons;
 
 import java.util.ArrayList;
 
+import items.Item;
 import pokemons.abilities.Ability;
 import pokemons.conditions.Condition;
 import pokemons.moves.Move;
 import pokemons.stats.Stat;
 import pokemons.stats.Stats;
 import pokemons.types.PokeType;
+import screens.arena.shop.Buyable;
 import utils.PokeUtils;
 
-public class Pokemon {
+public class Pokemon extends Buyable{
     String name;
     String nickname;
 
@@ -53,6 +55,8 @@ public class Pokemon {
 
     ArrayList<Condition> conditions = new ArrayList<Condition>();
     int inactiveCount;
+
+    Item heldItem;
 
     //Constructor
     public Pokemon(PokeList pokemon) {
@@ -443,7 +447,7 @@ public class Pokemon {
     public ArrayList<Condition> getConditions() {
         return conditions;
     }
-
+    
     public void addCondition(Condition condition) {
         this.conditions.add(condition);
     }
@@ -455,7 +459,9 @@ public class Pokemon {
     public void setInactiveCount(int turns) {
         this.inactiveCount = turns;
     }
-    
+    //TODO
+    public void levelUp() {
+    }
     
     @Override
     public String toString() {
@@ -478,6 +484,7 @@ public class Pokemon {
             + "Conditions:" + this.getConditions() + "\n"
         );
     }
+
 
 
 

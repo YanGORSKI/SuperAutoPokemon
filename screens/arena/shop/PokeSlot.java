@@ -36,6 +36,18 @@ public class PokeSlot extends Slot{
         
     }
 
+    public boolean hasContent() {
+        if (this.content != null) return true;
+        else return false;
+    }
+
+    public void receivePokemon(Pokemon pokemon) {
+        content = pokemon;
+    }
+    
+    public void deleteContent() {
+        this.content = null;
+    }
     
     public Pokemon getContent() {
         return content;

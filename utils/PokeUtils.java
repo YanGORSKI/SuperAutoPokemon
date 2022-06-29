@@ -1,10 +1,16 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
 import pokemons.PokeList;
 import pokemons.Pokemon;
+import screens.arena.ShopScreen;
+import screens.arena.shop.Buyable;
+import screens.arena.shop.Shop;
 
 public class PokeUtils {
 	Random random = new Random();
@@ -23,9 +29,42 @@ public class PokeUtils {
 		int d100 = (int) (Math.random() * 100 + 1);
 		return d100;
 	}
+
+	public static String input() throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        line = in.readLine();
+		return line;
+    }
+
+	public static void waitInput() throws IOException {
+		System.out.println("Press ENTER:");
+		String wait = input();
+	}
 	
-	public static Pokemon clone(Pokemon pokemon) {
-		return pokemon;
+	
+	public static Buyable clone(Buyable buyable) {
+		return buyable;
+	}
+
+	public static int shopIndexInput(Shop shop) throws IOException {
+		int shopIndex = 100;
+		System.out.println("Enter the slot position on the shop that you want to buy\nBetween 1 and " + shop.getActiveSlots().size());
+		while (!(shopIndex > 0 && shopIndex < shop.getActiveSlots().size()+1)) {
+            // ShopScreen.printShop();
+			try {
+                shopIndex = Integer.parseInt(PokeUtils.input());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Option");
+				PokeUtils.waitInput();
+				continue;
+            } catch (IOException e) {
+                System.out.println("Invalid Option");
+                PokeUtils.waitInput();
+				continue;
+            }
+        }
+		return shopIndex;
 	}
 	
 	static ArrayList<PokeList> tier1 = new ArrayList<>();
@@ -35,6 +74,11 @@ public class PokeUtils {
 	static ArrayList<PokeList> tier5 = new ArrayList<>();
 	static ArrayList<PokeList> tier6 = new ArrayList<>();
 
+	
+	public static void clear() {
+		System.out.print("\033[H\033[2J");  
+		System.out.flush();  
+	}
 	
 	
 	public static ArrayList<PokeList> getTier1() {

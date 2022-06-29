@@ -1,6 +1,8 @@
 package items;
 
-public class Item {
+import screens.arena.shop.Buyable;
+
+public class Item extends Buyable{
     String name = "";
 
 

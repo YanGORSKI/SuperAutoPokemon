@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,13 +9,15 @@ import pokemons.PokeList;
 import pokemons.Pokemon;
 import screens.arena.battle.duel.Duel;
 import screens.arena.shop.Shop;
+import screens.titlescreen.TitleScreen;
 import utils.PokeUtils;
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //Chama só o Menu
-// TitleScreen.run();      
-// menu();
+TitleScreen tScreen = new TitleScreen();
+PokeUtils.clear();
+tScreen.run();
 
 //Testes preliminares
 PokeUtils.defineTiers();
@@ -63,14 +66,19 @@ ekans.setNickname("Cobroxa");
 Pokemon pika = new Pokemon(PokeList.PIKACHU);
 pika.setNickname("Pika");
 
-System.out.println(caterpie);
-System.out.println(weedle);
+// System.out.println(caterpie);
+// System.out.println();
+// System.out.println(weedle);
 
-Duel duel = new Duel(pika, charm);
+// Duel duel = new Duel(caterpie, weedle);
+
 // Player player = new Player();
 // player.advanceRound();
 
 // Shop shop = new Shop(player);
+// System.out.println();
+// shop.refreshShop(player);
+// shop.printShop();
 
 
 

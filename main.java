@@ -15,9 +15,8 @@ import utils.PokeUtils;
 public class main {
     public static void main(String[] args) throws IOException {
 //Chama só o Menu
-TitleScreen tScreen = new TitleScreen();
 PokeUtils.clear();
-tScreen.run();
+TitleScreen.run();
 
 //Testes preliminares
 PokeUtils.defineTiers();

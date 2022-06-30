@@ -3,9 +3,10 @@ package screens.arena.shop;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import items.Item;
 import player.Player;
 import pokemons.Pokemon;
-import screens.arena.ShopScreen;
+import screens.arena.Arena;
 import utils.PokeUtils;
 
 public class Shop {
@@ -23,14 +24,14 @@ public class Shop {
 
     ArrayList<Slot> activeSlots = new ArrayList<>();
     int currentTier;
-    Player player;
+    Arena arena;
 
-    public Shop(Player player) {
-        this.player = player;
-        if (player.getRound() > 30) {
+    public Shop(Arena arena) {
+        this.arena = arena;
+        if (this.arena.getPlayer().getRound() > 30) {
             this.currentTier = 10;
         } else {
-            this.currentTier = (int)(Math.ceil(player.getRound()/3));
+            this.currentTier = (int)(Math.ceil(this.arena.getPlayer().getRound()/3));
         }
         unlockSlots();
         for (int i = 0; i < activeSlots.size(); i++) {
@@ -318,12 +319,12 @@ public class Shop {
         }
 	}
 
-    public void refreshShop(Player player) {
-        if (player.getGold() < 1) {
+    public void refreshShop() {
+        if (this.arena.getPlayer().getGold() < 1) {
             System.out.println("You don't have enough money to refresh the shop");
         } else {
-            player.spendGold(1);
-            System.out.println("Player spent 1 gold to refresh the shop and now has: " + player.getGold() + " Gold");
+            this.arena.getPlayer().spendGold(1);
+            System.out.println("Player spent 1 gold to refresh the shop and now has: " + this.arena.getPlayer().getGold() + " Gold");
             for (int i=0; i < (this.activeSlots.size()-1);i++) {
                 if (this.activeSlots.get(i).isFrozen) {
                     System.out.println("Slot " + i + " is frozen");
@@ -334,7 +335,7 @@ public class Shop {
         }
     }
     
-    public void buyPokemon(Player player, Slot source, PokeSlot destiny) {
+    public void buyPokemon(Player player, PokeSlot source, PokeSlot destiny) {
         if (player.getGold() < 3) {
             System.out.println("You don't have enough money to buy a Pokemon");
         } else {
@@ -349,23 +350,20 @@ public class Shop {
         }
     }
 
-    public void sellPokemon(Player player, PokeSlot slot) {
-        if (!slot.hasContent()) {
+    public void sellPokemon(Player player, PokeSlot sellingSlot) {
+        if (!(sellingSlot.hasContent())) {
             System.out.println("There's nothing to sell");
             return;
         } else {
-            int price = (slot.getContent().getLVL()*1);
+            int price = (sellingSlot.getContent().getLVL()*1);
             player.earnGold(price);
-            slot.deleteContent();
-            System.out.println("Sold " + slot.getContent().getName() + "(LvL " + slot.getContent().getLVL() + ") for " + price);
+            System.out.println("Sold " + sellingSlot.getContent().getName() + "(LvL " + sellingSlot.getContent().getLVL() + ") for " + price);
+            sellingSlot.deleteContent();
         }
     }
     
-    public void printShop() {
+    public void printShopSlots() {
         for (int i = 0; i < activeSlots.size(); i++) {
-            // if (activeSlots.get(i+1).getClass()) {
-
-            // }
             System.out.print(activeSlots.get(i).toString());
         }
     }
@@ -393,26 +391,15 @@ public class Shop {
             PokeUtils.waitInput();
             return;
         }
-        if (player.getGold() < this.activeSlots.get(shopIndex-1).getCost()) {
+        if (this.arena.getPlayer().getGold() < this.activeSlots.get(shopIndex-1).getCost()) {
             System.out.println("You don't have enough Gold");
             PokeUtils.waitInput();
             return;
         } else {
-                System.out.println("Enter the slot position on your team that you'll place your new Pokemon");
-            while (!(teamIndex > 0 && teamIndex < 6)) {
-                try {
-                    teamIndex = Integer.parseInt(PokeUtils.input());
-                } catch (NumberFormatException e) {
-                    System.out.println("Enter the slot position on your team that you'll place your new Pokemon\nBetween 1 and 5");
-                    PokeUtils.waitInput();
-                } catch (IOException e) {
-                    System.out.println("Enter the slot position on your team that you'll place your new Pokemon\nBetween 1 and 5");
-                    PokeUtils.waitInput();
-                }
-            }
-            if (player.getTeam().getSlots().get(teamIndex-1).hasContent()) {
-                if(player.getTeam().getSlots().get(teamIndex-1).getContent().getName().equals(this.activeSlots.get(shopIndex-1).getContent().getName())) {
-                    player.getTeam().getSlots().get(teamIndex-1).getContent().levelUp();
+            teamIndex = PokeUtils.teamIndexInput(this.arena.getPlayer());
+            if (this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).hasContent()) {
+                if(this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().getName().equals(this.activeSlots.get(shopIndex-1).getContent().getName())) {
+                    this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().levelUp();
                     return;
                 } else {
                     System.out.println("Team Slot occupied");
@@ -420,15 +407,32 @@ public class Shop {
                     return;
                 }
             } else {
-                this.buyPokemon(this.player, this.activeSlots.get(shopIndex-1), this.player.getTeam().getSlots().get(teamIndex-1));
-                return;
+                if (this.activeSlots.get(shopIndex-1).getContent() instanceof Pokemon) {
+                    this.buyPokemon(this.arena.getPlayer(), (PokeSlot) this.activeSlots.get(shopIndex-1), this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1));
+                    return;
+                } else {
+                    this.buyItem(this.arena.getPlayer(), (ItemSlot) this.activeSlots.get(shopIndex-1), this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent());
+                }
             }
         }
 
 
     }
 
-    public void sellOption() {
+    private void buyItem(Player player, ItemSlot itemSlot, Pokemon destiny) {
+    }
+
+    public void sellOption() throws IOException {
+        int teamIndex = 100;
+        teamIndex = PokeUtils.teamIndexInput(this.arena.getPlayer());
+            if (!(this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).hasContent())) {
+                System.out.println("There's nothing to sell");
+                PokeUtils.waitInput();
+                return;
+            } else {
+                this.sellPokemon(this.arena.getPlayer(), this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1));
+                return;
+            }
     }
 
     public void evolveOption() {

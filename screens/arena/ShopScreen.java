@@ -6,41 +6,41 @@ import utils.PokeUtils;
 import utils.TFormat;
 //TORNAR SHOPSCREEN STATIC
 public class ShopScreen {
-    Arena arena = null;
-    boolean goToBattle = false;
+    public static Arena arena = null;
+    static boolean goToBattle = false;
 
-    public ShopScreen() {
-        this.arena = new Arena();
-        this.goToBattle = false;
+    private ShopScreen() {
+        arena = new Arena();
+        goToBattle = false;
     }
     
-    public void run() throws IOException {
+    public static void run() throws IOException {
         PokeUtils.clear();
-        if (this.arena == null) {
-            this.arena = new Arena();
+        if (arena == null) {
+            arena = new Arena();
         }
-        while(!this.goToBattle) {
+        while(!goToBattle) {
             PokeUtils.clear();
-            this.printShopScreen();
+            printShopScreen();
             String input = PokeUtils.input().toUpperCase();
 
             switch(input) {
                 case "BUY":
                 case "B":
                 PokeUtils.clear();
-                this.printShopScreen();
+                printShopScreen();
                 arena.shop.buyOption();
                 break;
                 case "SELL":
                 case "S":
                 PokeUtils.clear();
-                this.printShopScreen();
+                printShopScreen();
                 arena.shop.sellOption();
                 break;
                 case "EVOLVE":
                 case "E":
                 PokeUtils.clear();
-                this.printShopScreen();
+                printShopScreen();
                 arena.shop.evolveOption();
                 break;
                 case "FIGHT":
@@ -50,12 +50,12 @@ public class ShopScreen {
                 case "REFRESH":
                 case "R":
                 case "RE":
-                arena.shop.refreshShop(arena.player);;
+                arena.shop.refreshShop();;
                 break;
                 default:
                 PokeUtils.clear();
-                this.printShopScreen();
-                System.out.println("Please select a valid option");
+                printShopScreen();
+                PokeUtils.invalidInput();
                 PokeUtils.waitInput();
                 break;
 
@@ -65,7 +65,7 @@ public class ShopScreen {
 
     }
 
-    private void printOptionsHorizontal() {
+    private static void printOptionsHorizontal() {
         String[] options = {
                             "Fight",
                             "Buy",
@@ -91,24 +91,24 @@ public class ShopScreen {
         }
     }
 
-    private void printShopScreen() {
-        this.arena.player.printPlayer();
+    public static void printShopScreen() {
+        arena.player.printPlayer();
         System.out.println();
         System.out.println();
-        this.arena.player.getTeam().printMyTeam();
+        arena.player.getTeam().printMyTeam();
         System.out.println("My Team");
         System.out.println();
-        this.arena.shop.printShop();
+        arena.shop.printShopSlots();
         System.out.println();
         System.out.println("Buy Pokemon - 3 Gold\t\tBuy Item - 3 Gold");
         System.out.println();
-        this.printOptionsHorizontal();
+        printOptionsHorizontal();
         //debug
-        // System.out.println(this.arena.player.getGold());
+        // System.out.println(arena.player.getGold());
     }
 
-    public void goToBattle() {
-        this.goToBattle = true;
+    public static void goToBattle() {
+        goToBattle = true;
     }
 
     

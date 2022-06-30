@@ -16,20 +16,20 @@ import utils.TFormat;
 public class TitleScreen {
     Scanner sc = new Scanner(System.in);
 
-    int index;
+    int index = 0;
 
-    public TitleScreen() {
+    private TitleScreen() {
         this.index = 0;
     }
 
-    String[] options = {    "Arena",
+    static String[] options = {    "Arena",
                             "Deck Builder",
                             "Options",
                             "Exit",
 
     };
 
-    public void printMenu() {
+    public static void printMenu() {
         for (int i = 0; i < options.length; i++) {
                 char[] word = options[i].toCharArray();
                 String print = "";
@@ -45,7 +45,7 @@ public class TitleScreen {
         }
     
 
-    public void run() throws IOException {
+    public static void run() throws IOException {
         PokeUtils.clear();
         String input;
         while (true) {
@@ -55,9 +55,9 @@ public class TitleScreen {
             
             switch (input) {
                 case "A":
+                case "1":
                 case "ARENA":
-                ShopScreen shopScrn = new ShopScreen();
-                shopScrn.run();
+                ShopScreen.run();
 
                 break;
                 case "D":
@@ -67,22 +67,25 @@ public class TitleScreen {
                 case "DECKBUILD":
                 case "DECK BUILDER":
                 case "DECKBUILDER":
+                case "2":
                 // DeckBuilder.run();
 
                 break;
                 case "O":
                 case "OPTIONS":
                 case "OPT":
+                case "3":
                 // OptionsScreen.run();
 
                 break;
                 case "E":
                 case "EXIT":
                 case "QUIT":
+                case "4":
                 System.exit(0);
                 break;
                 default:
-                System.out.println("Please, type a valid option");
+                PokeUtils.invalidInput();
                 PokeUtils.waitInput();
                 // String placeholder = sc.next();
                 

@@ -13,9 +13,17 @@ public class Arena {
 
         player = new Player();
         
-        shop = new Shop(player);
+        shop = new Shop(this);
     }
 
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public Shop getShop() {
+        return this.shop;
+    }
+    
     public void fightOption() {
     }
 

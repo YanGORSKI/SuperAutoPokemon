@@ -15,6 +15,7 @@ import screens.arena.shop.Shop;
 
 public class PokeUtils {
 	Random random = new Random();
+	static TypeWriter tWr = new TypeWriter();
 
 	public static int dn(int n) {
 		int dn = (int) (Math.random() * n + 1);
@@ -31,6 +32,11 @@ public class PokeUtils {
 		return d100;
 	}
 
+	public static double statMutation() {
+		double mutationValue = (Math.random()*0.2 + 0.9); 
+		return mutationValue;
+	}
+
 	public static String input() throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String line = "";
@@ -39,11 +45,11 @@ public class PokeUtils {
 	}
 
 	public static void invalidInput() {
-		System.out.println("Please, type a valid option");
+		tWr.println("Please, type a valid option");
 	}
 
 	public static void waitInput() throws IOException {
-		System.out.println("Press ENTER:");
+		tWr.println("Press ENTER:");
 		String wait = input();
 	}
 
@@ -60,7 +66,7 @@ public class PokeUtils {
 		while (!(shopIndex > 0 && shopIndex < shop.getActiveSlots().size() + 1)) {
 			PokeUtils.clear();
 			ShopScreen.printShopScreen();
-			System.out.println("Enter the slot position on the shop\nBetween 1 and "
+			tWr.println("Enter the slot position on the shop\nBetween 1 and "
 					+ shop.getActiveSlots().size());
 			try {
 				shopIndex = Integer.parseInt(PokeUtils.input());
@@ -86,7 +92,7 @@ public class PokeUtils {
 		while (!(teamIndex > 0 && teamIndex < 6)) {
 			PokeUtils.clear();
 			ShopScreen.printShopScreen();
-			System.out.println(
+			tWr.println(
 					"Enter the slot position on your team\nBetween 1 and 5");
 			try {
 				teamIndex = Integer.parseInt(PokeUtils.input());

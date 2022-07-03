@@ -1,7 +1,10 @@
 package pokemons.stats;
 
+import utils.PokeUtils;
+
 public class Stat {
     Stats stat;
+    double root;
     double base;
     double mod;
     double currentd;
@@ -9,6 +12,7 @@ public class Stat {
     
     public Stat(Stats stat, double base) {
         this.stat = stat;
+        this.root = base;
         this.base = base;
         this.mod = 0;
         this.currentd = this.base + this.mod;
@@ -42,5 +46,23 @@ public class Stat {
 
     public double getBase() {
         return this.base;
+    }
+
+    public void levelUpBase() {
+        double statMutation = PokeUtils.statMutation();
+        this.base = this.base + (this.root*0.2*statMutation);
+    }
+
+    public double getRoot() {
+        return this.root;
+    }
+
+    public Stats getStat() {
+        return this.stat;
+    }
+    
+    @Override
+    public String toString() {
+        return this.stat.toString();
     }
 }

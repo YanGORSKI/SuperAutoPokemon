@@ -9,43 +9,43 @@ public enum PokeList {
 	
 	
 	//bulbasauro evoLine
-	//			name				    type1				type2	frm	tier	HP		ATK		DEF		SATK	SDEF	SPD 	Ability1			Ability2			Move1					Move2					Move3					Move4
-	BULBASAUR	("Bulbasaur",     PokeType.GRASS,     PokeType.NULL, 	1, 	1, 		180, 	49, 	49,  	65,  	65,  	45, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.TACKLE, 		MoveList.GROWL, 		MoveList.VINE_WHIP, 	MoveList.RAZOR_LEAF),
-	IVYSAUR		("Ivysaur", 		PokeType.GRASS, 	PokeType.NULL, 	2, 	3, 		240, 	62, 	63,  	80,  	80,  	60, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.VINE_WHIP, 	MoveList.GROWTH, 		MoveList.POISON_POWDER, MoveList.RAZOR_LEAF),
-	VENUSAUR	("Venusaur", 		PokeType.GRASS, 	PokeType.NULL, 	3, 	6, 		320, 	82, 	83,  	100, 	100, 	80, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.RAZOR_LEAF, 	MoveList.POISON_POWDER, MoveList.LEECH_SEED, 	MoveList.SOLAR_BEAM),
+	//			evos, 			name				    type1				type2		frm			tier			HP				ATK				DEF				SATK				SDEF				SPD 		Ability1			Ability2			Move1					Move2					Move3					Move4
+	BULBASAUR	(3,	"Bulbasaur",     PokeType.GRASS,     PokeType.NULL, 	1, 	1, 		180, 	49, 	49,  	65,  	65,  	45, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.TACKLE, 		MoveList.GROWL, 		MoveList.VINE_WHIP, 	MoveList.RAZOR_LEAF),
+	IVYSAUR		(3,	"Ivysaur", 		PokeType.GRASS, 	PokeType.NULL, 	2, 	3, 		240, 	62, 	63,  	80,  	80,  	60, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.VINE_WHIP, 	MoveList.GROWTH, 		MoveList.POISON_POWDER, MoveList.RAZOR_LEAF),
+	VENUSAUR	(3,	"Venusaur", 		PokeType.GRASS, 	PokeType.NULL, 	3, 	6, 		320, 	82, 	83,  	100, 	100, 	80, 	Ability.OVERGROW, 	Ability.OVERGROW, 	MoveList.RAZOR_LEAF, 	MoveList.POISON_POWDER, MoveList.LEECH_SEED, 	MoveList.SOLAR_BEAM),
 	//charmander evoLine
-	//			name				    type1				type2				frm	tier	HP		ATK		DEF		SATK	SDEF	SPD 	Ability1			Ability2			Move1					Move2					Move3					Move4
-	CHARMANDER	("Charmander", 	PokeType.FIRE,  	PokeType.NULL, 	1, 	1, 		156, 	52, 	43,  	60,  	50,  	65, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.SCRATCH, 		MoveList.GROWL, 		MoveList.LEER, 			MoveList.EMBER),
-	CHARMELEON	("Charmeleon", 	PokeType.FIRE,  	PokeType.NULL, 	2, 	3, 		232, 	64, 	58,  	80,  	65,  	80, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.EMBER, 		MoveList.LEER, 			MoveList.RAGE, 			MoveList.FLAMETHROWER),
-	CHARIZARD	("Charizard", 	PokeType.FIRE,  	PokeType.NULL, 	3, 	6, 		312, 	84, 	78,  	109, 	85,  	100, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.FLAMETHROWER, 	MoveList.RAGE, 			MoveList.SLASH, 		MoveList.FIRE_SPIN),
+	//			evos, 			name				    type1				type2		frm			tier			HP				ATK				DEF				SATK				SDEF				SPD 		Ability1			Ability2			Move1					Move2					Move3					Move4
+	CHARMANDER	(3,"Charmander", 	PokeType.FIRE,  	PokeType.NULL, 	1, 	1, 		156, 	52, 	43,  	60,  	50,  	65, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.SCRATCH, 		MoveList.GROWL, 		MoveList.LEER, 			MoveList.EMBER),
+	CHARMELEON	(3,"Charmeleon", 	PokeType.FIRE,  	PokeType.NULL, 	2, 	3, 		232, 	64, 	58,  	80,  	65,  	80, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.EMBER, 		MoveList.LEER, 			MoveList.RAGE, 			MoveList.FLAMETHROWER),
+	CHARIZARD	(3,"Charizard", 	PokeType.FIRE,  	PokeType.NULL, 	3, 	6, 		312, 	84, 	78,  	109, 	85,  	100, 	Ability.BLAZE, 		Ability.BLAZE, 	  	MoveList.FLAMETHROWER, 	MoveList.RAGE, 			MoveList.SLASH, 		MoveList.FIRE_SPIN),
 	//squirtle evoLine														156
-	//			name				    type1				type2				frm	tier	HP		ATK		DEF		SATK	SDEF	SPD 	Ability1			Ability2			Move1					Move2					Move3					Move4
-	SQUIRTLE	("Squirtle", 		PokeType.WATER, 	PokeType.NULL, 	1, 	1, 		176, 	48, 	65,  	50,  	64,  	43, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.TACKLE, 		MoveList.TAIL_WHIP, 	MoveList.BUBBLE, 		MoveList.WATER_GUN),
-	WARTORTLE	("Wartortle", 	PokeType.WATER, 	PokeType.NULL, 	2, 	3, 		236, 	63, 	80,  	65,  	80,  	58, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.WATER_GUN, 	MoveList.WITHDRAW, 		MoveList.BITE, 			MoveList.SKULL_BASH),
-	BLASTOISE	("Blastoise",		PokeType.WATER, 	PokeType.NULL, 	3, 	6, 		316, 	83, 	100, 	85,  	105, 	78, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.BITE, 			MoveList.SKULL_BASH, 	MoveList.WITHDRAW, 		MoveList.HYDRO_PUMP),
+	//			evos, 			name				    type1				type2		frm			tier			HP				ATK				DEF				SATK				SDEF				SPD 		Ability1			Ability2			Move1					Move2					Move3					Move4
+	SQUIRTLE	(3,"Squirtle", 		PokeType.WATER, 	PokeType.NULL, 	1, 	1, 		176, 	48, 	65,  	50,  	64,  	43, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.TACKLE, 		MoveList.TAIL_WHIP, 	MoveList.BUBBLE, 		MoveList.WATER_GUN),
+	WARTORTLE	(3,"Wartortle", 	PokeType.WATER, 	PokeType.NULL, 	2, 	3, 		236, 	63, 	80,  	65,  	80,  	58, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.WATER_GUN, 	MoveList.WITHDRAW, 		MoveList.BITE, 			MoveList.SKULL_BASH),
+	BLASTOISE	(3,"Blastoise",		PokeType.WATER, 	PokeType.NULL, 	3, 	6, 		316, 	83, 	100, 	85,  	105, 	78, 	Ability.TORRENT, 	Ability.TORRENT,  	MoveList.BITE, 			MoveList.SKULL_BASH, 	MoveList.WITHDRAW, 		MoveList.HYDRO_PUMP),
 	
 	//Caterpie evoline
-	//			name				type1				type2					frm		tier		HP			  ATK		   DEF			SATK			SDEF		SPD 	Ability1				Ability2				Move1					Move2					Move3					Move4
-	CATERPIE	("Caterpie",	PokeType.BUG,		PokeType.NULL, 		1, 1, 180, 	30, 35, 20, 20, 45,	Ability.SHIELD_DUST,	Ability.SHIELD_DUST, 	MoveList.TACKLE, 		MoveList.STRING_SHOT, 	MoveList.TACKLE, 		MoveList.STRING_SHOT),
+	//			evos, 			name				    type1				type2		frm			tier			HP				ATK				DEF				SATK				SDEF				SPD 		Ability1			Ability2			Move1					Move2					Move3					Move4
+	CATERPIE	(3,"Caterpie",	PokeType.BUG,		PokeType.NULL, 		1, 1, 180, 	30, 35, 20, 20, 45,	Ability.SHIELD_DUST,	Ability.SHIELD_DUST, 	MoveList.TACKLE, 		MoveList.STRING_SHOT, 	MoveList.TACKLE, 		MoveList.STRING_SHOT),
 	
 	//Weedle evoline
-	WEEDLE 		("Weedle", 	PokeType.BUG, 		PokeType.POISON, 	1, 1, 160, 	35, 30, 20, 20, 50, 	Ability.SHIELD_DUST, 	Ability.SHIELD_DUST, 	MoveList.POISON_STING, 	MoveList.STRING_SHOT, 	MoveList.POISON_STING, 	MoveList.STRING_SHOT),
+	WEEDLE 		(3,"Weedle", 	PokeType.BUG, 		PokeType.POISON, 	1, 1, 160, 	35, 30, 20, 20, 50, 	Ability.SHIELD_DUST, 	Ability.SHIELD_DUST, 	MoveList.POISON_STING, 	MoveList.STRING_SHOT, 	MoveList.POISON_STING, 	MoveList.STRING_SHOT),
 	
 	//Pidgey evoline
-	PIDGEY		("Pidgey", 	PokeType.NORMAL, 	PokeType.FLYING, 	1, 1, 160, 	45, 40, 35, 35, 56, 	Ability.KEEN_EYE, 		Ability.TANGLED_FEET, 	MoveList.GUST, 			MoveList.AGILITY, 		MoveList.SAND_ATTACK, 	MoveList.QUICK_ATTACK),
+	PIDGEY		(3,"Pidgey", 	PokeType.NORMAL, 	PokeType.FLYING, 	1, 1, 160, 	45, 40, 35, 35, 56, 	Ability.KEEN_EYE, 		Ability.TANGLED_FEET, 	MoveList.GUST, 			MoveList.AGILITY, 		MoveList.SAND_ATTACK, 	MoveList.QUICK_ATTACK),
 
 	//Rattata evoline
 	//			name				type1				type2					frm		tier		HP			ATK			DEF				SATK		SDEF		SPD 	Ability1			Ability2				Move1					Move2					Move3						Move4
-	RATTATA		("Rattata", 	PokeType.NORMAL, 	PokeType.NULL, 		1, 1, 120, 56, 35, 25, 35, 72, Ability.GUTS, 		Ability.HUSTLE, 		MoveList.TACKLE, 		MoveList.TAIL_WHIP, 	MoveList.QUICK_ATTACK,		MoveList.FOCUS_ENERGY),
+	RATTATA		(2,"Rattata", 	PokeType.NORMAL, 	PokeType.NULL, 		1, 1, 120, 56, 35, 25, 35, 72, Ability.GUTS, 		Ability.HUSTLE, 		MoveList.TACKLE, 		MoveList.TAIL_WHIP, 	MoveList.QUICK_ATTACK,		MoveList.FOCUS_ENERGY),
 	
 	//Spearow evoline
-	SPEAROW 	("Spearow", 	PokeType.NORMAL, 	PokeType.FLYING,    1, 1, 160, 60, 30, 31, 31, 70, Ability.KEEN_EYE, 	Ability.SNIPER, 		MoveList.PECK, 			MoveList.GROWL, 		MoveList.LEER, 				MoveList.FURY_ATTACK),
+	SPEAROW 	(2,"Spearow", 	PokeType.NORMAL, 	PokeType.FLYING,    1, 1, 160, 60, 30, 31, 31, 70, Ability.KEEN_EYE, 	Ability.SNIPER, 		MoveList.PECK, 			MoveList.GROWL, 		MoveList.LEER, 				MoveList.FURY_ATTACK),
 	
 	//Ekans evoline
-	EKANS 		("Ekans", 	PokeType.POISON, 	PokeType.NULL, 		1, 1, 140, 60, 44, 40, 54, 55, Ability.INTIMIDATE, 	Ability.SHED_SKIN, 		MoveList.WRAP, 			MoveList.LEER, 			MoveList.POISON_STING, 		MoveList.BITE),
+	EKANS 		(2,"Ekans", 	PokeType.POISON, 	PokeType.NULL, 		1, 1, 140, 60, 44, 40, 54, 55, Ability.INTIMIDATE, 	Ability.SHED_SKIN, 		MoveList.WRAP, 			MoveList.LEER, 			MoveList.POISON_STING, 		MoveList.BITE),
 	
 	//Pikachu evoline
-	PIKACHU 	("Pikachu", 	PokeType.ELECTRIC, 	PokeType.NULL, 		1, 1, 140, 55, 30, 50, 40, 90, Ability.STATIC, 		Ability.LIGHTNING_ROD, 	MoveList.THUNDER_SHOCK, MoveList.DOUBLE_TEAM, 	MoveList.AGILITY, 			MoveList.THUNDERBOLT)
+	PIKACHU 	(2,"Pikachu", 	PokeType.ELECTRIC, 	PokeType.NULL, 		1, 1, 140, 55, 30, 50, 40, 90, Ability.STATIC, 		Ability.LIGHTNING_ROD, 	MoveList.THUNDER_SHOCK, MoveList.DOUBLE_TEAM, 	MoveList.AGILITY, 			MoveList.THUNDERBOLT)
 	;
 	
 	
@@ -56,6 +56,7 @@ public enum PokeList {
 	PokeType type2;
 	int form;
 	int tier;
+	int evos;
 	double baseHP; 
 	double baseATK; 
 	double baseDEF; 
@@ -73,6 +74,7 @@ public enum PokeList {
 	
 	private PokeList
 			(
+			int evos,
 			String name,
 			PokeType type1,
 			PokeType type2,
@@ -92,6 +94,7 @@ public enum PokeList {
 			MoveList move4
 			)
 	{
+		this.evos		= evos;
 		this.name 		= name;
 		this.type1 		= type1;
 		this.type2 		= type2;

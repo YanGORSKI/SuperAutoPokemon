@@ -4,7 +4,7 @@ public class Slot {
     boolean active = false;
     int cost;
     Buyable content;
-    boolean isFrozen = false;
+    boolean isLocked = false;
 
     public Buyable getContent() {
         return content;
@@ -26,15 +26,16 @@ public class Slot {
         active = true;
     }
 
-    public void freezeSlot() {
-        isFrozen = true;
+    public void lockSlot() {
+        isLocked = true;
     }
 
-    public void unfreezeSlot() {
-        isFrozen = false;
+    public void unlockSlot() {
+        isLocked = false;
     }
 
     public void generate(Shop shop) {
     }
 
+    
 }

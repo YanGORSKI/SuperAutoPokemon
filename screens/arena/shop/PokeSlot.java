@@ -12,6 +12,9 @@ public class PokeSlot extends Slot{
 
     public void generate(Shop shop) {
         int fromTier = shop.getPokeTier();
+        if (this.isLocked) {
+            return;
+        }
         switch (fromTier) {
             case 1:
                 this.content = new Pokemon(PokeUtils.getTier1().get((PokeUtils.dn(PokeUtils.getTier1().size()))-1));
@@ -58,7 +61,11 @@ public class PokeSlot extends Slot{
         if (this.content == null) {
             return "[EMPTY]";
         } else {
-            return ("[" + getContent().getName() + "]");
+            if(this.isLocked) {
+                return ("[*" + getContent().getName() + "*]");    
+            } else {
+                return ("[" + getContent().getName() + "]");
+            }
         }
     }
 }

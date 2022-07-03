@@ -5,8 +5,11 @@ import pokemons.conditions.Condition;
 import pokemons.stats.Stats;
 import pokemons.types.PokeType;
 import utils.PokeUtils;
+import utils.TypeWriter;
 
 public class Move {
+    TypeWriter tWr = new TypeWriter();
+
     String name;
     PokeType type;
 
@@ -137,15 +140,15 @@ public class Move {
 		for (int i=0; i<this.numHitsCheck(); i++) {
 			if(isCrit(this)) {
 				target.takeDmg(finalDmg*1.5);
-				System.out.println(user.getNickname() + " deals " + (int)(finalDmg*1.5) + " damage to " + target.getNickname() + ". It's a critical hit!");
+				tWr.println(user.getNickname() + " deals " + (int)(finalDmg*1.5) + " damage to " + target.getNickname() + ". It's a critical hit!");
 			} else {
 				target.takeDmg(finalDmg);
-				System.out.println(user.getNickname() + " deals " + (int)(finalDmg) + " damage to " + target.getNickname() + ".");
+				tWr.println(user.getNickname() + " deals " + (int)(finalDmg) + " damage to " + target.getNickname() + ".");
 			}
-			if (typeAdjust > 1) System.out.println("It's super effective!");
-			if (typeAdjust < 1) System.out.println("It's not very effective");
-			if (typeAdjust == 0) System.out.println("It had no effect");
-            System.out.println(target.getNickname()+"'s HP goes to " + target.getHP());
+			if (typeAdjust > 1) tWr.println("It's super effective!");
+			if (typeAdjust < 1) tWr.println("It's not very effective");
+			if (typeAdjust == 0) tWr.println("It had no effect");
+            tWr.println(target.getNickname()+"'s HP goes to " + target.getHP());
 		}
 
 	}
@@ -158,15 +161,15 @@ public class Move {
 
     public void inflictCondition(Pokemon user, Pokemon target) {
 		if (this.getCondition() == Condition.SEEDED && (target.getType1() == PokeType.GRASS || target.getType2() == PokeType.GRASS)) {
-            System.out.println("Cannot SEED a GRASS Pokemon!");
+            tWr.println("Cannot SEED a GRASS Pokemon!");
             return;
         }
         if (target.getConditions().contains(this.getCondition())) {
-            System.out.println(target.getNickname() + " is still " + this.getCondition().name());
+            tWr.println(target.getNickname() + " is still " + this.getCondition().name());
             return;
         } else {
             target.addCondition(this.getCondition());
-            System.out.println(user.getNickname() + " inflicts " + this.getCondition().name() + " to " + target.getNickname());
+            tWr.println(user.getNickname() + " inflicts " + this.getCondition().name() + " to " + target.getNickname());
             if (this.getCondition().equals(Condition.BOUND)) {
                 target.setInactiveCount(user.getActiveMoveTurns()-1);
             }
@@ -185,7 +188,7 @@ public class Move {
 					maxChance = maxChance+2;
 				}
 				if (i == maxTurns) {
-					System.out.println(i);
+					// System.out.println(i);
 					return i;
 				}
 			}
@@ -205,7 +208,7 @@ public class Move {
 					maxChance = maxChance+2;
 				}
 				if (i == maxHits) {
-					System.out.println(i);
+					// System.out.println(i);
 					return i;
 				}
 			}
@@ -219,55 +222,55 @@ public class Move {
                 break;
             case ATK:
                 target.changeATK(target.getATK()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s ATK has gone to " + target.getATK());
+                tWr.println(target.getNickname() + "'s ATK has gone to " + target.getATK());
                 break;
             case DEF:
                 target.changeDEF(target.getDEF()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s DEF has gone to " + target.getDEF());
+                tWr.println(target.getNickname() + "'s DEF has gone to " + target.getDEF());
                 break;
             case SATK:
                 target.changeSATK(target.getSATK()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s SATK has gone to " + target.getSATK());
+                tWr.println(target.getNickname() + "'s SATK has gone to " + target.getSATK());
                 break;
             case SDEF:
                 target.changeSDEF(target.getSDEF()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s SDEF has gone to " + target.getSDEF());
+                tWr.println(target.getNickname() + "'s SDEF has gone to " + target.getSDEF());
                 break;
             case SPD:
                 target.changeSPD(target.getSPD()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s SPD has gone to " + target.getSPD());
+                tWr.println(target.getNickname() + "'s SPD has gone to " + target.getSPD());
                 if (target.getSPD() > 100) {
                     if (!(target.getEVS() > 0.5)) {
                         target.changeEVS(((((double)(target.getSPD())-100d)/2d)/100d));
                         System.out.printf(target.getNickname() + " is so fast it's EVS increases to %,.2f", target.getEVS100());
-                        System.out.println("%");
+                        tWr.println("%");
                     } else {
-                        System.out.println(target.getNickname() + "'s EVS can't increase anymore!");
+                        tWr.println(target.getNickname() + "'s EVS can't increase anymore!");
                     }
                 }
                 break;
             case ACC:
                 target.changeACC(target.getACC()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s ACC has gone to " + target.getACC());
+                tWr.println(target.getNickname() + "'s ACC has gone to " + target.getACC());
                 break;
             case EVS:
                 if (!(target.getEVS() > 0.5)) {
                     target.changeEVS(this.getStatChange());
                     System.out.printf(target.getNickname() + "'s EVS has gone to %,.2f", target.getEVS100());
-                    System.out.println("%");
+                    tWr.println("%");
                 } else {
-                    System.out.println(target.getNickname() + "'s EVS can't increase anymore!");
+                    tWr.println(target.getNickname() + "'s EVS can't increase anymore!");
                 }
                 break;
             case CRIT:
                 target.changeCRIT(this.getStatChange());
-                System.out.println(target.getNickname() + "'s CRIT has gone to " + target.getCRIT100());
+                tWr.println(target.getNickname() + "'s CRIT has gone to " + target.getCRIT100());
                 break;
             case SPECIAL:
                 target.changeSATK(target.getSATK()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s SATK has gone to " + target.getSATK());
+                tWr.println(target.getNickname() + "'s SATK has gone to " + target.getSATK());
                 target.changeSDEF(target.getSDEF()*this.getStatChange());
-                System.out.println(target.getNickname() + "'s SDEF has gone to " + target.getSDEF());
+                tWr.println(target.getNickname() + "'s SDEF has gone to " + target.getSDEF());
                 break;
             default:
                 break;
@@ -358,7 +361,7 @@ public class Move {
     public String toString() {
         return (
             name + " " + type + "(" + range + ")\n"
-            + "PWR: " + pwr + " // ACC: " + acc
+            + "PWR: " + pwr + "   // ACC: " + acc
         );
     }
 

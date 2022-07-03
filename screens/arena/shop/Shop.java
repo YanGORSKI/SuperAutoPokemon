@@ -8,8 +8,10 @@ import player.Player;
 import pokemons.Pokemon;
 import screens.arena.Arena;
 import utils.PokeUtils;
+import utils.TypeWriter;
 
 public class Shop {
+    public TypeWriter tWr = new TypeWriter();
     //shows the Pokemons and items available to buy based on the tier the player's in
     PokeSlot pSlot1 = new PokeSlot();
     PokeSlot pSlot2 = new PokeSlot();
@@ -321,13 +323,13 @@ public class Shop {
 
     public void refreshShop() {
         if (this.arena.getPlayer().getGold() < 1) {
-            System.out.println("You don't have enough money to refresh the shop");
+            tWr.println("You don't have enough money to refresh the shop");
         } else {
             this.arena.getPlayer().spendGold(1);
-            System.out.println("Player spent 1 gold to refresh the shop and now has: " + this.arena.getPlayer().getGold() + " Gold");
+            tWr.println("Player spent 1 gold to refresh the shop and now has: " + this.arena.getPlayer().getGold() + " Gold");
             for (int i=0; i < (this.activeSlots.size()-1);i++) {
-                if (this.activeSlots.get(i).isFrozen) {
-                    System.out.println("Slot " + i + " is frozen");
+                if (this.activeSlots.get(i).isLocked) {
+                    tWr.println("Slot " + i + " is frozen");
                 } else {
                     this.activeSlots.get(i).generate(this);
                 }
@@ -337,13 +339,13 @@ public class Shop {
     
     public void buyPokemon(Player player, PokeSlot source, PokeSlot destiny) {
         if (player.getGold() < 3) {
-            System.out.println("You don't have enough money to buy a Pokemon");
+            tWr.println("You don't have enough money to buy a Pokemon");
         } else {
             if (!(destiny.content == null)) {
-                System.out.println("The chosen slot is occupied");
+                tWr.println("The chosen slot is occupied");
             } else {
                 player.spendGold(3);
-                System.out.println("Player bought " + source.getContent().getName() + " for 3 Gold and has now " + player.getGold() + " Gold");
+                tWr.println("Player bought " + source.getContent().getName() + " for 3 Gold and has now " + player.getGold() + " Gold");
                 destiny.content = (Pokemon) PokeUtils.clone(source.getContent());
                 source.deleteContent();
             }
@@ -352,12 +354,12 @@ public class Shop {
 
     public void sellPokemon(Player player, PokeSlot sellingSlot) {
         if (!(sellingSlot.hasContent())) {
-            System.out.println("There's nothing to sell");
+            tWr.println("There's nothing to sell");
             return;
         } else {
             int price = (sellingSlot.getContent().getLVL()*1);
             player.earnGold(price);
-            System.out.println("Sold " + sellingSlot.getContent().getName() + "(LvL " + sellingSlot.getContent().getLVL() + ") for " + price);
+            tWr.println("Sold " + sellingSlot.getContent().getName() + "(LvL " + sellingSlot.getContent().getLVL() + ") for " + price);
             sellingSlot.deleteContent();
         }
     }
@@ -387,22 +389,30 @@ public class Shop {
         int teamIndex = 100;
         shopIndex = PokeUtils.shopIndexInput(this);
         if (this.activeSlots.get(shopIndex-1).toString().equals("[EMPTY]")) {
-            System.out.println("There's nothing to buy in here");
+            tWr.println("There's nothing to buy in here");
             PokeUtils.waitInput();
             return;
         }
         if (this.arena.getPlayer().getGold() < this.activeSlots.get(shopIndex-1).getCost()) {
-            System.out.println("You don't have enough Gold");
+            tWr.println("You don't have enough Gold");
             PokeUtils.waitInput();
             return;
         } else {
             teamIndex = PokeUtils.teamIndexInput(this.arena.getPlayer());
             if (this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).hasContent()) {
                 if(this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().getName().equals(this.activeSlots.get(shopIndex-1).getContent().getName())) {
-                    this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().levelUp();
-                    return;
+                    if (this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().getLVL() == this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().getMaxLVL()) {
+                        tWr.println("Pokemon is already at max LVL");
+                        PokeUtils.waitInput();
+                        return;
+                    } else {
+                        this.arena.getPlayer().spendGold(3);
+                        this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).getContent().levelUp();
+                        this.activeSlots.get(shopIndex-1).deleteContent();
+                        return;
+                    }
                 } else {
-                    System.out.println("Team Slot occupied");
+                    tWr.println("Team Slot occupied");
                     PokeUtils.waitInput();
                     return;
                 }
@@ -426,7 +436,7 @@ public class Shop {
         int teamIndex = 100;
         teamIndex = PokeUtils.teamIndexInput(this.arena.getPlayer());
             if (!(this.arena.getPlayer().getTeam().getSlots().get(teamIndex-1).hasContent())) {
-                System.out.println("There's nothing to sell");
+                tWr.println("There's nothing to sell");
                 PokeUtils.waitInput();
                 return;
             } else {
@@ -436,5 +446,21 @@ public class Shop {
     }
 
     public void evolveOption() {
+    }
+
+    public void lockSlotToggle() throws IOException {
+        int shopIndex = 100;
+        shopIndex = PokeUtils.shopIndexInput(this);
+        if (this.activeSlots.get(shopIndex-1).toString().equals("[EMPTY]")) {
+            tWr.println("There's nothing to lock in here");
+            PokeUtils.waitInput();
+            return;
+        }
+        if (this.activeSlots.get(shopIndex-1).isLocked) {
+            this.activeSlots.get(shopIndex-1).unlockSlot();
+        } else {
+            this.activeSlots.get(shopIndex-1).lockSlot();
+        }
+
     }
 }

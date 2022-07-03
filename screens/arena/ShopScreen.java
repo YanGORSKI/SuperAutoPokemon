@@ -8,6 +8,22 @@ import utils.TFormat;
 public class ShopScreen {
     public static Arena arena = null;
     static boolean goToBattle = false;
+    static String[] shopOptions = {
+        "Buy",
+        "Sell",
+        "Lock|Unlock",
+        "Refresh"
+    };
+    static String[] teamOptions = {
+        "Move",
+        "Evolve",
+        "Info"
+    };
+    static String[] gameOptions = {
+        "Fight",
+        "Config",
+        "Quit"
+    };
 
     private ShopScreen() {
         arena = new Arena();
@@ -23,8 +39,26 @@ public class ShopScreen {
             PokeUtils.clear();
             printShopScreen();
             String input = PokeUtils.input().toUpperCase();
-
+            
             switch(input) {
+                case "MOVE":
+                case "M":
+                PokeUtils.clear();
+                printShopScreen();
+                arena.player.getTeam().moveOption();
+                break;
+                case "EVOLVE":
+                case "E":
+                PokeUtils.clear();
+                printShopScreen();
+                arena.shop.evolveOption();
+                break;
+                case "INFO":
+                case "I":
+                PokeUtils.clear();
+                printShopScreen();
+                arena.player.getTeam().infoOption();
+                break;
                 case "BUY":
                 case "B":
                 PokeUtils.clear();
@@ -37,20 +71,30 @@ public class ShopScreen {
                 printShopScreen();
                 arena.shop.sellOption();
                 break;
-                case "EVOLVE":
-                case "E":
-                PokeUtils.clear();
-                printShopScreen();
-                arena.shop.evolveOption();
-                break;
-                case "FIGHT":
-                case "F":
-                arena.fightOption();
+                case "LOCK":
+                case "UNLOCK":
+                case "L":
+                case "U":
+                case "UN":
+                arena.shop.lockSlotToggle();
                 break;
                 case "REFRESH":
                 case "R":
                 case "RE":
                 arena.shop.refreshShop();;
+                break;
+                case "FIGHT":
+                case "F":
+                arena.fightOption();
+                break;
+                case "CONFIG":
+                case "C":
+                arena.fightOption();
+                break;
+                case "QUIT":
+                case "Q":
+                case "EXIT":
+                arena.fightOption();
                 break;
                 default:
                 PokeUtils.clear();
@@ -65,14 +109,7 @@ public class ShopScreen {
 
     }
 
-    private static void printOptionsHorizontal() {
-        String[] options = {
-                            "Fight",
-                            "Buy",
-                            "Sell",
-                            "Evolve",
-                            "Refresh"
-                        };
+    private static void printOptionsHorizontal(String[] options) {
         for (int i = 0; i < options.length; i++) {
             char[] word = options[i].toCharArray();
             String print = "";
@@ -94,15 +131,20 @@ public class ShopScreen {
     public static void printShopScreen() {
         arena.player.printPlayer();
         System.out.println();
-        System.out.println();
         arena.player.getTeam().printMyTeam();
         System.out.println("My Team");
         System.out.println();
         arena.shop.printShopSlots();
         System.out.println();
-        System.out.println("Buy Pokemon - 3 Gold\t\tBuy Item - 3 Gold");
+        System.out.println("Buy Pokemon \t- 3 Gold     Buy Item - 3 Gold");
+        System.out.println("Evolve Pokemon \t- 5 Gold");
         System.out.println();
-        printOptionsHorizontal();
+        System.out.print("Team: ");
+        printOptionsHorizontal(ShopScreen.teamOptions);
+        System.out.print("Shop: ");
+        printOptionsHorizontal(ShopScreen.shopOptions);
+        System.out.print("Game: ");
+        printOptionsHorizontal(ShopScreen.gameOptions);
         //debug
         // System.out.println(arena.player.getGold());
     }

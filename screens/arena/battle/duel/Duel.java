@@ -1,19 +1,23 @@
 package screens.arena.battle.duel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import pokemons.Pokemon;
 import pokemons.conditions.Condition;
 import utils.PokeUtils;
+import utils.TypeWriter;
 
 
 public class Duel {
+    TypeWriter tWr = new TypeWriter();
+
     int turn;
     Pokemon battler1;
     Pokemon battler2;
     ArrayList<Pokemon> order;
 
-    public void dueling() {
+    public void dueling() throws IOException {
        while (battler1.getHP() > 0 && battler2.getHP() > 0) {
         // for (int i = 0; i < 5; i++) {
             beginTurn();
@@ -28,9 +32,10 @@ public class Duel {
     }
     
     public void beginTurn() {
+        PokeUtils.clear();
         this.turn = this.turn + 1;
         System.out.println("__________________________________________");
-        System.out.println("TURN: " + this.turn);
+        tWr.println("TURN: " + this.turn);
         for (int i = 0; i < this.battler1.getConditions().size(); i++) {
             this.battler1.getConditions().get(i).conditionCheckBegin(this.battler1);
             this.battler1.getConditions().get(i).conditionFromUser(this.battler1, this.battler2);
@@ -63,18 +68,18 @@ public class Duel {
     }
     
     
-    public void endTurn() {
-
+    public void endTurn() throws IOException {
+        PokeUtils.waitInput();
     }
     
     
     private void declareWinner() {
         if (this.battler1.getHP() <= 0 && this.battler2.getHP() <= 0) {
-            System.out.println("It's a tie!");
+            tWr.println("It's a tie!");
         } else if (this.battler1.getHP() <= 0 && this.battler2.getHP() > 0) {
-            System.out.println(battler2.getNickname() + " wins the duel!");
+            tWr.println(battler2.getNickname() + " wins the duel!");
         } if (this.battler1.getHP() > 0 && this.battler2.getHP() <= 0) {
-            System.out.println(battler1.getNickname() + " wins the duel!");
+            tWr.println(battler1.getNickname() + " wins the duel!");
         }
     }
     
@@ -125,7 +130,7 @@ public class Duel {
         System.out.println(pokemon.getConditions());
     }
 
-    public Duel(Pokemon battler1, Pokemon battler2) {
+    public Duel(Pokemon battler1, Pokemon battler2) throws IOException {
         this.battler1 = battler1;
         this.battler2 = battler2;
         this.turn = 0;

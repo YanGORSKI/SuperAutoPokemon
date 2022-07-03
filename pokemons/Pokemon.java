@@ -1,5 +1,6 @@
 package pokemons;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import items.Item;
@@ -11,8 +12,11 @@ import pokemons.stats.Stats;
 import pokemons.types.PokeType;
 import screens.arena.shop.Buyable;
 import utils.PokeUtils;
+import utils.TypeWriter;
 
 public class Pokemon extends Buyable{
+    TypeWriter tWr = new TypeWriter();
+
     String name;
     String nickname;
 
@@ -23,7 +27,8 @@ public class Pokemon extends Buyable{
     int tier;
 
     int LVL;
-    int EXP;
+    int maxLVL;
+    int evos;
 
     Stat HP;
     Stat ATK;
@@ -54,6 +59,7 @@ public class Pokemon extends Buyable{
     Ability ability;
 
     ArrayList<Condition> conditions = new ArrayList<Condition>();
+    ArrayList<Stat> coreStats = new ArrayList<Stat>();
     int inactiveCount;
 
     Item heldItem;
@@ -68,7 +74,30 @@ public class Pokemon extends Buyable{
         
         this.form = pokemon.form;
         this.tier = pokemon.tier;
-        this.LVL = 1;
+        this.LVL = 0;
+        this.evos = pokemon.evos;
+
+        switch (this.evos) {
+            case 1:
+                this.maxLVL = 10;
+                break;
+            case 2:
+                this.maxLVL = 5;
+                break;
+            case 3:
+                switch (this.form) {
+                    case 1:
+                        this.maxLVL = 5;
+                        break;
+                    case 2:
+                        this.maxLVL = 3;
+                        break;
+                    case 3:
+                        this.maxLVL = 2;
+                        break;
+                }    
+                break;
+        }
         
         this.HP = new Stat(Stats.HP, pokemon.baseHP);
         this.ATK = new Stat(Stats.ATK, pokemon.baseATK);
@@ -99,12 +128,19 @@ public class Pokemon extends Buyable{
 
         this.lastUsedMove = null;
         this.lastSufferedMove = null;
+
+        this.coreStats.add(this.HP);
+        this.coreStats.add(this.ATK);
+        this.coreStats.add(this.DEF);
+        this.coreStats.add(this.SATK);
+        this.coreStats.add(this.SDEF);
+        this.coreStats.add(this.SPD);
     }
 
     //Act Check
     public boolean canAct() {
         if (inactiveCount > 0) {
-            System.out.println(this.getNickname() + " can't act!");
+            tWr.println(this.getNickname() + " can't act!");
             this.inactiveCount = this.inactiveCount-1;
             if (inactiveCount == 0) {
                 this.conditions.remove(Condition.BOUND);
@@ -112,22 +148,22 @@ public class Pokemon extends Buyable{
             return false;
         }
         if (!isAlive()) {
-            System.out.println(this.getNickname() + " fainted!");
+            tWr.println(this.getNickname() + " fainted!");
             return false;
         }
         if (!(this.target.getHP() > 0)) {
-            System.out.println(this.getNickname() + " has no target!");
+            tWr.println(this.getNickname() + " has no target!");
             return false;
         }
         if (this.conditions.contains(Condition.FLINCHING)) {
-            System.out.println(this.getNickname() + " flinched!");
+            tWr.println(this.getNickname() + " flinched!");
             this.conditions.remove(Condition.FLINCHING);
             return false;
         }
         if (this.conditions.contains(Condition.PARALYZED)) {
             int d20 = PokeUtils.d20();
             if (d20 >= 1 && d20 <= 5) {
-                System.out.println(this.getNickname() + " is paralyzed!");
+                tWr.println(this.getNickname() + " is paralyzed!");
                 return false;
             } else {
                 return true;
@@ -146,7 +182,7 @@ public class Pokemon extends Buyable{
     public boolean canChoose() {
         if (activeMoveTurns > 0) {
             if(this.activeMove.getName().equals("Rage")) {
-                System.out.println(this.getNickname() + " is still raging!");
+                tWr.println(this.getNickname() + " is still raging!");
             }
             return false;
         } else return true;
@@ -159,21 +195,21 @@ public class Pokemon extends Buyable{
 				while (this.conditions.contains(Condition.CHARGING)) {
 					this.conditions.remove(Condition.CHARGING);
 				}
-				System.out.println(this.getNickname() + "'s attack is ready!");
+				tWr.println(this.getNickname() + "'s attack is ready!");
 				return;
 			} else {
 				this.conditions.add(Condition.CHARGING);
-				System.out.println(this.getNickname() + "is charging an attack!");
+				tWr.println(this.getNickname() + "is charging an attack!");
 				return;
 			}
 		} else {
 			if(this.activeMove != null && this.activeMoveTurns > 0) {
-				System.out.println(this.getNickname() + "is still going!");
+				tWr.println(this.getNickname() + "is still going!");
 				this.activeMoveTurns = this.activeMoveTurns-1;
 				return;
 			} else {
 				if (this.activeMove != null && this.activeMoveRest > 0) {
-					System.out.println(this.getNickname() + "is recharging!");
+					tWr.println(this.getNickname() + "is recharging!");
 					this.activeMoveRest = this.activeMoveRest-1;
 					return;
 				} else {
@@ -193,22 +229,22 @@ public class Pokemon extends Buyable{
 
     public void use(Move move) {
         if (this.activeMoveDelay > 0) {
-            System.out.println(this.getNickname() + " is charging!");
+            tWr.println(this.getNickname() + " is charging!");
             this.activeMoveTurnsTicks();
             return;
         }
         if (this.conditions.contains(Condition.CHARGING)) {
-            System.out.println(this.getNickname() + " is charging!");
+            tWr.println(this.getNickname() + " is charging!");
             return;
         } else {
             if (this.activeMove != null && this.activeMoveMaxTurns > this.activeMoveTurns) {
-                System.out.println(this.getNickname() + " uses " + this.activeMove.getName());
+                tWr.println(this.getNickname() + " uses " + this.activeMove.getName());
                 this.activeMove.execute(this, this.target);
                 if (this.activeMoveTurns == 0) {
                     resetActiveMove();
                 }
             } else {
-                System.out.println(this.getNickname() + " uses " + this.activeMove.getName());
+                tWr.println(this.getNickname() + " uses " + this.activeMove.getName());
                 if (this.activeMove.getAcc() > 0) {
                     if (this.activeMove.hitCheck(this, this.target)) {
                         this.activeMove.execute(this, this.target);
@@ -216,7 +252,7 @@ public class Pokemon extends Buyable{
                             resetActiveMove();
                         }
                     } else {
-                        System.out.println(this.getNickname() + " misses!");
+                        tWr.println(this.getNickname() + " misses!");
                         resetActiveMove();
                     }
                 } else {
@@ -289,10 +325,6 @@ public class Pokemon extends Buyable{
 
     public int getLVL() {
         return LVL;
-    }
-
-    public int getEXP() {
-        return EXP;
     }
 
     public int getHP() {
@@ -455,34 +487,129 @@ public class Pokemon extends Buyable{
     public int getInactiveCount() {
         return inactiveCount;
     }
+
+    public String getGraphLvL() {
+        String maxLVLToken = "~";
+        String actualLVLToken = "+";
+        String overLVLToken = "x";
+        String graphLVL = "";
+        
+        if (this.evos == 1) {
+            if (this.LVL < 6) {
+                for (int i = 0; i < this.LVL; i++) {
+                    graphLVL = graphLVL + actualLVLToken;
+                }
+                for (int i = 0; i < (5-this.LVL); i++) {
+                    graphLVL = graphLVL + maxLVLToken;
+                }
+            } else {
+                for (int i = 0; i < this.LVL; i++) {
+                    graphLVL = graphLVL + maxLVLToken;
+                }
+                for (int i = 0; i < (this.maxLVL-this.LVL); i++) {
+                    graphLVL = graphLVL + overLVLToken;
+                }
+            }
+
+        } else {
+            for (int i = 0; i < this.LVL; i++) {
+                graphLVL = graphLVL + actualLVLToken;
+            }
+            for (int i = 0; i < (this.maxLVL-this.LVL); i++) {
+                graphLVL = graphLVL + maxLVLToken;
+            } 
+        }
+        
+        return graphLVL;
+    }
     
     public void setInactiveCount(int turns) {
         this.inactiveCount = turns;
     }
+    
+    public int getMaxLVL() {
+        return this.maxLVL;
+    }
+    
     //TODO
-    public void levelUp() {
+    public void levelUp() throws IOException {
+        int beforeLVL = this.getLVL();
+        String beforeGraphLVL = this.getGraphLvL();
+        int beforeHP = this.getHP();
+        int beforeATK = this.getATK();
+        int beforeDEF = this.getDEF();
+        int beforeSATK = this.getSATK();
+        int beforeSDEF = this.getSDEF();
+        int beforeSPD = this.getSPD();
+        this.LVL = this.LVL + 1;
+        for (Stat stat : coreStats) {
+            System.out.println(stat.toString());
+            System.out.println(stat.getBase());
+            System.out.println(stat.current());
+            System.out.println(stat.getRoot());
+            stat.levelUpBase();
+            stat.updateStat();
+            System.out.println(stat.getBase());
+            System.out.println(stat.current());
+            System.out.println(stat.getRoot());
+        }
+        //print LevelUp
+        PokeUtils.clear();
+        System.out.printf("_________________________________\n");
+        System.out.printf(nickname + " (" + name + ") leveled up!\n");
+        System.out.printf("LVL: \t" + beforeLVL + "(+1) \t" + beforeGraphLVL + "\n");
+        System.out.printf("HP: \t"    + (int)(beforeHP) +     " \t(+%.1f)" + "\n", (HP.getBase() - beforeHP));
+        System.out.printf("ATK: \t"   + (int)(beforeATK) +    " \t(+%.1f)" + "\n", (ATK.getBase() - beforeATK));
+        System.out.printf("DEF: \t"   + (int)(beforeDEF) +    " \t(+%.1f)" + "\n", (DEF.getBase() - beforeDEF));
+        System.out.printf("SATK: \t"  + (int)(beforeSATK) +   " \t(+%.1f)" + "\n", (SATK.getBase() - beforeSATK));
+        System.out.printf("SDEF: \t"  + (int)(beforeSDEF) +   " \t(+%.1f)" + "\n", (SDEF.getBase() - beforeSDEF));
+        System.out.printf("SPD: \t"   + (int)(beforeSPD) +    " \t(+%.1f)" + "\n", (SPD.getBase() - beforeSPD));
+        System.out.printf("\n");
+        
+        PokeUtils.waitInput();
+        
+        PokeUtils.clear();
+        System.out.printf("_________________________________\n");
+        System.out.printf(nickname + " (" + name + ") leveled up!\n");
+        System.out.printf("LVL: \t" + LVL + " \t" + getGraphLvL() + "\n");
+        System.out.printf("HP: \t"    + (int)(HP.getBase()) + "\n");
+        System.out.printf("ATK: \t"   + (int)(ATK.getBase()) + "\n");
+        System.out.printf("DEF: \t"   + (int)(DEF.getBase()) + "\n");
+        System.out.printf("SATK: \t"  + (int)(SATK.getBase()) + "\n");
+        System.out.printf("SDEF: \t"  + (int)(SDEF.getBase()) + "\n");
+        System.out.printf("SPD: \t"   + (int)(SPD.getBase()) + "\n");
+        System.out.println();
+        PokeUtils.waitInput();
+
+        //TODO ACTUAL LVL UP
     }
     
     @Override
     public String toString() {
-        return ( "_________________________________\n"
-            + nickname + " (" + name + ") LVL: " + LVL + "\n"
-            + type1 + " " + type2 + "\n"
-            + "HP: " + HP.current() + "/" + (int)(HP.getBase()) + "\n"
-            + "ATK: " + ATK.current() + "/" + (int)(ATK.getBase()) + "\n"
-            + "DEF: " + DEF.current() + "/" + (int)(DEF.getBase()) + "\n"
-            + "SATK: " + SATK.current() + "/" + (int)(SATK.getBase()) + "\n"
-            + "SDEF: " + SDEF.current() + "/" + (int)(SDEF.getBase()) + "\n"
-            + "SPD: " + SPD.current() + "/" + (int)(SPD.getBase()) + "\n"
-            + "EVS: " + EVS.current() + "/" + (int)(EVS.getBase()) + "\n"
-            + "Ability: " + ability + "\n"
-            + "MOVES\n"
-            + "(1) " + move1 + "\n"
-            + "(2) " + move2 + "\n"
-            + "(3) " + move3 + "\n"
-            + "(4) " + move4 + "\n"
-            + "Conditions:" + this.getConditions() + "\n"
+        return (
+                    "_______________________________________\n"
+                    + nickname + " (" + name + ") \tLVL: " + LVL + " " + getGraphLvL() + "\n"
+                    + type1 + " " + type2 + "\n"
+                    + "HP: \t" + HP.current() + "/" + (int)(HP.getBase()) + "\n"
+                    + "ATK: \t" + ATK.current() + "/" + (int)(ATK.getBase()) + "\n"
+                    + "DEF: \t" + DEF.current() + "/" + (int)(DEF.getBase()) + "\n"
+                    + "SATK: \t" + SATK.current() + "/" + (int)(SATK.getBase()) + "\n"
+                    + "SDEF: \t" + SDEF.current() + "/" + (int)(SDEF.getBase()) + "\n"
+                    + "SPD: \t" + SPD.current() + "/" + (int)(SPD.getBase()) + "\n"
+                    + "EVS: \t" + EVS.current() + "/" + (int)(EVS.getBase()) + "\n\n"
+                    + "Ability: " + ability + "\n\n"
+                    + "MOVES\n"
+                    + "(1) " + move1 + "\n"
+                    + "(2) " + move2 + "\n"
+                    + "(3) " + move3 + "\n"
+                    + "(4) " + move4 + "\n\n"
+                    + "Conditions:" + this.getConditions() + "\n"
+                    + "_______________________________________\n"
         );
+    }
+
+    public void getDetails() {
+        //TODO DETAILS SCREEN
     }
 
 
